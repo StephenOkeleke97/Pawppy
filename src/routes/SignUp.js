@@ -8,9 +8,12 @@ import {
   AiFillCheckCircle,
 } from "react-icons/ai";
 import Button from "../components/Button";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -57,7 +60,9 @@ const SignUp = () => {
     }
   };
 
-  const goToLogin = () => {};
+  const goToSignIn = () => {
+    navigate("/signin");
+  };
 
   const validateInput = () => {
     let isValid = true;
@@ -260,7 +265,8 @@ const SignUp = () => {
 
             <div className="sign-in-prompt">
               <p>Already have an account? &nbsp;</p>
-              <span className="sign-in-button">
+              <span className="sign-in-button"
+              onClick={goToSignIn}>
                 <p>Sign In</p>
                 <AiOutlineArrowRight size={iconSize} />
               </span>

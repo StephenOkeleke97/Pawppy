@@ -9,6 +9,7 @@ import Browse from "./routes/Browse";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import SignUp from "./routes/SignUp";
+import SignIn from "./routes/SignIn";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -19,6 +20,7 @@ ReactDOM.render(
           <Route path="/" element={<App />} />
           <Route path="/browse" element={<Browse />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/signin" element={<SignIn />} />
         </Routes>
       </BrowserRouter>
     </Provider>
