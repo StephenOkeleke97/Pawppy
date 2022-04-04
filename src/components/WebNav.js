@@ -5,7 +5,7 @@ const WebNav = ({ textColor = "#fff" }) => {
   const activeStyle = {
     textDecoration: "none",
     color: textColor,
-    borderBottom: "2px solid #fff",
+    borderBottom: "2px solid " + textColor,
     paddingBottom: "10px"
   };
 
@@ -35,7 +35,7 @@ const WebNav = ({ textColor = "#fff" }) => {
         </li>
         <li>
           <NavLink
-            to={"login"}
+            to={"signup"}
             style={({ isActive }) => (isActive ? activeStyle : inActiveStyle)}
           >
             Sign Up

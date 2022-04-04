@@ -6,7 +6,7 @@ const Browse = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(updateGlobal({navBackground: "black"}));
+    dispatch(updateGlobal({navBackground: "black", navText: "#fff"}));
   }, []);
   
   return (

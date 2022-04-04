@@ -23,8 +23,8 @@ const Home = () => {
   }, [windowWidth]);
 
   useEffect(() => {
-    dispatch(updateGlobal({ navBackground: "rgba(0,0,0,0)" }));
-  });
+    dispatch(updateGlobal({ navBackground: "rgba(0,0,0,0)", navText: "#fff" }));
+  }, []);
 
   return (
     <div className="landing-container">

@@ -6,9 +6,9 @@ import "./styles/styles.css";
 import Navigation from "./components/Navigation";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Browse from "./routes/Browse";
-import LoginPage from "./routes/LoginPage";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import SignUp from "./routes/SignUp";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,7 +18,7 @@ ReactDOM.render(
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/browse" element={<Browse />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </Provider>

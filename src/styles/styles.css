@@ -11,6 +11,18 @@ body {
     position: relative;
 }
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 /* LANDING PAGE OR HOME PAGE */
 .landing-container {
     min-height: 100vh;
@@ -95,6 +107,104 @@ body {
     font-size: 14px;
 }
 
+/* LOGIN PAGE */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+}
+
+.login-left-pane {
+    background: url("/public/images/signupbg.jpg");
+    width: 35%;
+    min-height: inherit;
+    background-size: cover;
+    background-position: center;
+}
+
+.login-right-pane {
+    width: 65%;
+    padding: 80px;
+    padding-top: 100px;
+    padding-bottom: 0;
+}
+
+.login-container h1 {
+    font-weight: 500;
+    color: #E85668;
+}
+
+.login-header p {
+    margin: 15px 0;
+    font-size: 14px;
+    color: rgb(104, 102, 102);
+}
+
+.login-input-wrapper-container {
+    padding: 20px 0;
+}
+
+.login-input-wrapper {
+    border-bottom: 1px solid #d2d0d0;
+    width: 80%;
+    padding-bottom: 25px;
+}
+
+.login-input-container {
+    margin-bottom: 20px;
+}
+
+.login-input {
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 5px;
+    border: 1px solid #d2d0d0;
+    display: flex;
+    align-items: center;
+}
+
+.login-input input {
+    outline: none;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.password-visibility-icon {
+    color: #6D6E71;
+    cursor: pointer;
+}
+
+.input-valid-icon {
+    margin-left: 5px;
+}
+
+.sign-in-prompt {
+    padding-top: 30px;
+    font-size: 14px;
+    color: #676768;
+    display: flex;
+    align-items: center;
+}
+
+.sign-in-button {
+    color: #1771F1;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.sign-in-button p {
+    margin-right: 5px;
+}
+
+/* LOGIN/ SIGNUP ERROR TEXT */
+.login-error-text {
+    font-size: 10px;
+    margin-top: 2px;
+    color: red;
+}
+
 /* MEDIA QUERIES */
 @media (max-width:900px) {
     .landing-title {
@@ -103,6 +213,18 @@ body {
 
     .landing-title-main {
         line-height: 80px;
+    }
+
+    .login-input-wrapper {
+        width: 100%;
+    }
+
+    .login-left-pane {
+       display: none;
+    }
+
+    .login-right-pane {
+        width: 100%;
     }
 }
 
@@ -118,6 +240,11 @@ body {
     .landing-footer {
         font-size: 10px;
         padding-right: 10px;
+    }
+
+    .login-right-pane {
+        padding-left: 20px;
+        padding-right: 20px;
     }
 }
 
