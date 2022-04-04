@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Open sans", sans-serif;
+    padding: 0;
+}
+
+body {
+    position: relative;
+}
+
+/* LANDING PAGE OR HOME PAGE */
+.landing-container {
+    min-height: 100vh;
+    background: linear-gradient(
+        to right,
+        #fff 0%,
+        #fff 40%,
+        #E85668 40%,
+        #E85668 100%
+    );
+    position: relative;
+}
+
+.landing-dog {
+    min-height: 90vh;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 40%;
+    padding-top: 100px;
+}
+
+.landing-dog-image {
+    width: 100%;
+}
+
+.landing-title-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+}
+
+.landing-title {
+    font-size: 150px;
+    font-weight: 800;
+    color: rgb(192, 38, 38);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.landing-title-main {
+    line-height: 130px;
+}
+
+.landing-title-half {
+    color: #FFC11E
+}
+
+.landing-title-text {
+    font-size: 20px;
+    color: #fff;
+    align-self: flex-end;
+    text-align: justify;
+}
+
+.explore-button {
+    align-self: flex-end;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 50px;
+    padding: 5px 10px;
+    font-size: 22px;
+    font-weight: 700;
+    transition: transform 0.1s linear;
+}
+
+.explore-button:hover {
+    transform: scale(1.2);
+}
+
+.landing-footer {
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    color: #fff;
+    font-size: 14px;
+}
+
+/* MEDIA QUERIES */
+@media (max-width:900px) {
+    .landing-title {
+        font-size: 100px;
+    }
+
+    .landing-title-main {
+        line-height: 80px;
+    }
+}
+
+@media (max-width:600px) {
+    .landing-dog {
+        width: 70%;
+    }
+
+    .landing-title {
+        font-size: 80px;
+    }
+
+    .landing-footer {
+        font-size: 10px;
+        padding-right: 10px;
+    }
+}
+
+@media (max-width:400px) {
+    .landing-dog {
+        width: 90%;
+    }
+
+    .landing-title {
+        font-size: 70px;
+    }
+
+    .landing-title-text {
+        display: none;
+    }
+
+    .explore-button {
+        background-color: rgba(0, 0, 0, 0.138);
+    }
+}

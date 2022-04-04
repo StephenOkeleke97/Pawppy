@@ -1,0 +1,27 @@
+.nav-container {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    padding: 8px 100px;
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.web-nav {
+    font-size: 15px;
+    color: #fff;
+}
+
+.web-nav li {
+    display: inline-block;
+    margin-left: 50px;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+}
+
+.web-nav li:hover {
+    transform: scale(1.2);
+}
