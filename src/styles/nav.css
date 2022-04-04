@@ -12,16 +12,14 @@
 
 .web-nav {
     font-size: 15px;
-    color: #fff;
 }
 
 .web-nav li {
     display: inline-block;
     margin-left: 50px;
     cursor: pointer;
-    transition: transform 0.1s ease-in-out;
 }
 
-.web-nav li:hover {
-    transform: scale(1.2);
+.web-nav a {
+    display: block;
 }

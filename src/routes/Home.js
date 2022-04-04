@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateGlobal } from "../reducers/global";
 
 const Home = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const landingText = document.getElementById("landing-text");
@@ -18,6 +21,10 @@ const Home = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, [windowWidth]);
+
+  useEffect(() => {
+    dispatch(updateGlobal({ navBackground: "rgba(0,0,0,0)" }));
+  });
 
   return (
     <div className="landing-container">

@@ -1,3 +1,4 @@
+import Navigation from "./components/Navigation";
 import Home from "./routes/Home";
 
 function App() {
