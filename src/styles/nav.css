@@ -1,17 +1,19 @@
 .nav-container {
     position: fixed;
-    z-index: 1;
+    z-index: 10;
     left: 0;
     right: 0;
-    padding: 8px 100px;
     padding-top: 15px;
+    padding-bottom: 8px;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    height: 50px;
 }
 
 .web-nav {
     font-size: 15px;
+    align-self: flex-end;
+    padding-right: 100px;
 }
 
 .web-nav li {
@@ -22,4 +24,34 @@
 
 .web-nav a {
     display: block;
+}
+
+.mobile-nav {
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.hamburger-menu {
+    /* border: 2px solid red; */
+    cursor: pointer;
+}
+
+.hamburger-icon {
+    display: block;
+    margin-bottom: 6px;
+    transition: all 0.15s ease-in;
+}
+
+.ham-bottom-open {
+    margin: 0;
+    transform: translateY(-9px) rotate(45deg);
+}
+
+.ham-top-open {
+    transform: translateY(10px)  rotate(-45deg);
+}
+
+.ham-middle-open {
+    opacity: 0;
 }

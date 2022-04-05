@@ -259,7 +259,8 @@ const SignUp = () => {
               </div>
 
               <div>
-                <Button text={"Sign Up"} onClick={handleSignUp} />
+                <Button text={"Sign Up"} onClick={handleSignUp} 
+                 className="sign-in-button-component"/>
               </div>
             </div>
 
