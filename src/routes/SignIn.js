@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateGlobal } from "../reducers/global";
+import { updateGlobal } from "../redux/reducers/global";
 import {
   AiFillEyeInvisible,
   AiFillEye,
@@ -9,6 +9,9 @@ import {
 } from "react-icons/ai";
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
+import { login } from "../services/UserService";
+import { setUser } from "../redux/reducers/user";
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -19,6 +22,7 @@ const SignIn = () => {
   const [emailIsError, setEmailIsError] = useState(false);
   const [passwordIsError, setPasswordIsError] = useState(false);
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
+  const [loading, setLoading] = useState("");
 
   const iconSize = 14;
   const validInputIconSize = 13;
@@ -42,9 +46,23 @@ const SignIn = () => {
     return regex.test(email);
   };
 
+  const signInSuccess = (data) => {
+    setLoading("");
+    dispatch(setUser(data.user));
+    // console.log(data);
+  }
+
+  const signInFailure = (data = {
+    message: "Something went wrong. Please try again later"
+  }) => {
+    setLoading("");
+    console.log(data);
+  }
+
   const handleSignIn = () => {
     if (validateInput()) {
-      console.log("Sign In");
+      setLoading("Logging In...");
+      login(email, password, signInSuccess, signInFailure);
     }
   };
 
@@ -141,6 +159,7 @@ const SignIn = () => {
           </div>
         </div>
       </div>
+      <Loading loading={loading} text={loading}/>
     </div>
   );
 };

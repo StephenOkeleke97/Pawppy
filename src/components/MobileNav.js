@@ -1,26 +1,91 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import HamburgerMenu from "./HamburgerMenu";
+import LoggedInNav from "./LoggedInNav";
 
-const MobileNav = () => {
+const MobileNav = ({ textColor = "#000" }) => {
   const [navOpen, setNavOpen] = useState(false);
+  const user = useSelector((state) => state.userReducer.value.user);
+
+  const openMenu = () => {
+    document.body.style.overflow = "hidden";
+    setNavOpen(true);
+  };
+
+  const closeMenu = () => {
+    document.body.style.overflow = "visible";
+    setNavOpen(false);
+  };
+
+  const handleMenuClick = () => {
+    if (!navOpen) {
+      openMenu();
+    } else {
+      closeMenu();
+    }
+  };
+
+  const activeStyle = {
+    textDecoration: "none",
+    color: textColor,
+    paddingBottom: "10px",
+  };
+
+  const inActiveStyle = {
+    textDecoration: "none",
+    color: textColor,
+  };
+
   return (
     <div className="mobile-nav">
-      <div className="hamburger-menu"
-      onClick={() => setNavOpen(!navOpen)}>
-        <img
-          src="/images/remove.png"
-          width={35}
-          className={`hamburger-icon ${navOpen && "ham-top-open"}`}
-        />
-        <img
-          src="/images/remove.png"
-          width={35}
-          className={`hamburger-icon ${navOpen && "ham-middle-open"}`}
-        />
-        <img
-          src="/images/remove.png"
-          width={35}
-          className={`hamburger-icon ${navOpen && "ham-bottom-open"}`}
-        />
+      <HamburgerMenu navOpen={navOpen} onClick={handleMenuClick} />
+      {user && <LoggedInNav />}
+      <div
+        className={`mobile-nav-overlay ${navOpen && "mobile-nav-overlay-open"}`}
+      />
+      <div
+        className={`mobile-nav-container ${
+          navOpen && "mobile-nav-container-open"
+        }`}
+      >
+        <div className="mobile-nav-items">
+          <ul>
+            <li>
+              <NavLink
+                to={"/"}
+                style={({ isActive }) =>
+                  isActive ? activeStyle : inActiveStyle
+                }
+                onClick={closeMenu}
+              >
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={"browse"}
+                style={({ isActive }) =>
+                  isActive ? activeStyle : inActiveStyle
+                }
+                onClick={closeMenu}
+              >
+                Browse
+              </NavLink>
+            </li>
+            {!user && <li>
+              <NavLink
+                to={"signup"}
+                style={({ isActive }) =>
+                  isActive ? activeStyle : inActiveStyle
+                }
+                onClick={closeMenu}
+              >
+                Sign Up
+              </NavLink>
+            </li>}
+          </ul>
+        </div>
       </div>
     </div>
   );

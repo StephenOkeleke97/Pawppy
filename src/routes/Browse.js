@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { updateGlobal } from "../reducers/global";
+import { updateGlobal } from "../redux/reducers/global";
 import Button from "../components/Button";
 import { CATEGORY } from "../categories/categories";
 import QuickCategory from "../components/QuickCategory";

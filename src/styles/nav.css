@@ -1,57 +1,130 @@
 .nav-container {
-    position: fixed;
-    z-index: 10;
-    left: 0;
-    right: 0;
-    padding-top: 15px;
-    padding-bottom: 8px;
-    display: flex;
-    flex-direction: column;
-    height: 50px;
+  position: fixed;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  padding-top: 15px;
+  padding-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  height: 60px;
 }
 
 .web-nav {
-    font-size: 15px;
-    align-self: flex-end;
-    padding-right: 100px;
+  font-size: 15px;
+  align-self: flex-end;
+  padding-right: 100px;
+}
+
+.web-nav ul {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
 }
 
 .web-nav li {
-    display: inline-block;
-    margin-left: 50px;
-    cursor: pointer;
+  margin-left: 50px;
+  cursor: pointer;
 }
 
 .web-nav a {
-    display: block;
+  display: block;
+  padding-bottom: 10px;
 }
 
 .mobile-nav {
-    padding-left: 20px;
-    display: flex;
-    align-items: center;
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobile-nav-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 20%;
+  background-color: #fff;
+  transform: translateX(-100%);
+  transition: transform 0.2s ease-in;
+  z-index: 2;
+}
+
+.mobile-nav-container-open {
+    transform: translateX(0);
+  }
+
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  transition: background-color 0.2s ease-in;
+  transform: translateX(-100%);
+}
+
+.mobile-nav-overlay-open {
+    background-color: rgba(0, 0, 0, 0.601);
+    transform: translateX(0);
+    z-index: 1;
+}
+
+.mobile-nav-items {
+  padding: 60px 20px;
+  padding-top: 100px;
+}
+
+.mobile-nav-items ul {
+  list-style-type: none;
+}
+
+.mobile-nav-items li {
+  padding: 15px;
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 2px;
 }
 
 .hamburger-menu {
-    /* border: 2px solid red; */
-    cursor: pointer;
+  cursor: pointer;
+  z-index: 5;
 }
 
 .hamburger-icon {
-    display: block;
-    margin-bottom: 6px;
-    transition: all 0.15s ease-in;
+  display: block;
+  margin-bottom: 6px;
+  transition: all 0.15s ease-in;
+}
+
+.ham-bottom {
+  margin: 0;
 }
 
 .ham-bottom-open {
-    margin: 0;
-    transform: translateY(-10px) rotate(45deg);
+  transform: translateY(-10px) rotate(45deg);
 }
 
 .ham-top-open {
-    transform: translateY(10px)  rotate(-45deg);
+  transform: translateY(10px) rotate(-45deg);
 }
 
 .ham-middle-open {
-    opacity: 0;
+  opacity: 0;
+}
+
+.loggedin-nav-container {
+  cursor: pointer;
+}
+
+.user-icon {
+  width: 35px;
+  height: 35px;
+  border-radius: 50px;
+}
+
+.user-icon-image {
+  width: 100%;
+  height: 100%;
 }

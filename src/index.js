@@ -7,22 +7,28 @@ import Navigation from "./components/Navigation";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Browse from "./routes/Browse";
 import { Provider } from "react-redux";
-import store from "./store/store";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+import store from "./redux/store/store";
 import SignUp from "./routes/SignUp";
 import SignIn from "./routes/SignIn";
+
+let persistor = persistStore(store);
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <Navigation />
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/browse" element={<Browse />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
-        </Routes>
-      </BrowserRouter>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <Navigation />
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/browse" element={<Browse />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signin" element={<SignIn />} />
+          </Routes>
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

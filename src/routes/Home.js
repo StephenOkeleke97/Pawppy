@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateGlobal } from "../reducers/global";
+import { updateGlobal } from "../redux/reducers/global";
 
 const Home = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);

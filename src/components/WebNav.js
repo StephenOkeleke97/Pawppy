@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import LoggedInNav from "./LoggedInNav";
 
 const WebNav = ({ textColor = "#fff" }) => {
+  const user = useSelector(state => state.userReducer.value.user);
   const activeStyle = {
     textDecoration: "none",
     color: textColor,
@@ -33,14 +36,17 @@ const WebNav = ({ textColor = "#fff" }) => {
             Browse
           </NavLink>
         </li>
-        <li>
+        {!user && <li>
           <NavLink
             to={"signup"}
             style={({ isActive }) => (isActive ? activeStyle : inActiveStyle)}
           >
             Sign Up
           </NavLink>
-        </li>
+        </li>}
+        {user && <li>
+          <LoggedInNav/>
+        </li>}
       </ul>
     </div>
   );
