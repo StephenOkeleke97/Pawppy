@@ -12,6 +12,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import store from "./redux/store/store";
 import SignUp from "./routes/SignUp";
 import SignIn from "./routes/SignIn";
+import Search from "./routes/Search";
 
 let persistor = persistStore(store);
 
@@ -23,9 +24,10 @@ ReactDOM.render(
           <Navigation />
           <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/browse" element={<Browse />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/signin" element={<SignIn />} />
+            <Route path="browse" element={<Browse />} />
+            <Route path="/browse/search" element={<Search />} />
+            <Route path="signup" element={<SignUp />} />
+            <Route path="signin" element={<SignIn />} />
           </Routes>
         </BrowserRouter>
       </PersistGate>

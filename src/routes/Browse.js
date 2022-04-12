@@ -2,17 +2,24 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { updateGlobal } from "../redux/reducers/global";
 import Button from "../components/Button";
-import { CATEGORY } from "../categories/categories";
+import { CATEGORY } from "../filters/categories";
 import QuickCategory from "../components/QuickCategory";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { Outlet, useNavigate } from "react-router-dom";
+import Search from "./Search";
 
 const Browse = () => {
   const dispatch = useDispatch();
   const quickCategoryContainer = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(updateGlobal({ navBackground: "#fff", navText: "#6D6E71" }));
   }, []);
+
+  const goToSearch = (species) => {
+    navigate("/browse/search", {state: {species: species}});
+  }
 
   const handleScroll = (direction) => {
     const operator = {
@@ -52,9 +59,18 @@ const Browse = () => {
           </p>
 
           <div className="browse-search-options-buttons">
-            <Button className="browse-search-buttons" text={"View All"} />
-            <Button className="browse-search-buttons" text={"View Dogs"} />
-            <Button className="browse-search-buttons" text={"View Cats"} />
+            <Button className="browse-search-buttons" text={"View All"} 
+            onClick={() => {
+              goToSearch("Pet");
+            }}/>
+            <Button className="browse-search-buttons" text={"View Dogs"} 
+             onClick={() => {
+              goToSearch("Dog");
+            }}/>
+            <Button className="browse-search-buttons" text={"View Cats"} 
+             onClick={() => {
+              goToSearch("Cat");
+            }}/>
           </div>
         </div>
       </div>

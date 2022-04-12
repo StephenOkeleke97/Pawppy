@@ -4,9 +4,8 @@ import { NavLink } from "react-router-dom";
 import HamburgerMenu from "./HamburgerMenu";
 import LoggedInNav from "./LoggedInNav";
 
-const MobileNav = ({ textColor = "#000" }) => {
+const MobileNav = ({ textColor = "#000", user }) => {
   const [navOpen, setNavOpen] = useState(false);
-  const user = useSelector((state) => state.userReducer.value.user);
 
   const openMenu = () => {
     document.body.style.overflow = "hidden";

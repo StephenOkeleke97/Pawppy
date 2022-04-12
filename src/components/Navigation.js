@@ -7,6 +7,7 @@ import MobileNav from "./MobileNav";
 const Navigation = () => {
   const textColor = useSelector((state) => state.globalReducer.value).navText;
   const backgroundColor = useSelector((state) => state.globalReducer.value).navBackground;
+  const user = useSelector((state) => state.userReducer.value.user);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -27,8 +28,8 @@ const Navigation = () => {
   return (
     <div style={style} className='nav-container'>
       {windowWidth > 700 ?
-        <WebNav textColor={textColor}/> :
-        <MobileNav />}
+        <WebNav textColor={textColor} user={user}/> :
+        <MobileNav user={user}/>}
     </div>
   )
 }

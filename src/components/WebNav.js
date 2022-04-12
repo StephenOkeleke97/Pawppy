@@ -3,8 +3,7 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import LoggedInNav from "./LoggedInNav";
 
-const WebNav = ({ textColor = "#fff" }) => {
-  const user = useSelector(state => state.userReducer.value.user);
+const WebNav = ({ textColor = "#fff", user }) => {
   const activeStyle = {
     textDecoration: "none",
     color: textColor,
