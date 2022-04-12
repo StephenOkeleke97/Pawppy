@@ -61,7 +61,7 @@ const Browse = () => {
           <div className="browse-search-options-buttons">
             <Button className="browse-search-buttons" text={"View All"} 
             onClick={() => {
-              goToSearch("Pet");
+              goToSearch("");
             }}/>
             <Button className="browse-search-buttons" text={"View Dogs"} 
              onClick={() => {

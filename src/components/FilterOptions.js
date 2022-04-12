@@ -11,6 +11,11 @@ import { AiFillCheckCircle } from "react-icons/ai";
  * @param {function} remove filter variable to clear
  * @param {boolean} isBool true if filter variable is a boolean
  * or false if it is a string
+ * @param {boolean} conditional true if an option's value if based
+ * on another option
+ * @param {string} conditionalUpon the value on which this option
+ * is dependent
+ * @param {function} setSingleFilter required only when multiple value is false.
  * @returns FilterOptions
  */
 const FilterOptions = ({
@@ -18,7 +23,9 @@ const FilterOptions = ({
   options,
   multipleValues,
   addToFilter,
-  removeFromFilter,
+  conditional,
+  conditionalUpon,
+  setSingleFilter,
 }) => {
   const optionsBox = useRef(null);
   const [optionsVisible, setOptionsVisible] = useState(false);

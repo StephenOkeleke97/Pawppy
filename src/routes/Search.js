@@ -4,10 +4,10 @@ import { CATEGORY } from "../filters/categories";
 import FilterListItem from "../components/FilterListItem";
 import FilterOptions from "../components/FilterOptions";
 import { AGE, COAT, GENDER, SIZE, STATUS } from "../filters/constants";
+import { getTypes } from "../api/PetFinderService";
 
 const Search = () => {
   const { state } = useLocation();
-  const { species } = state;
 
   /**
    * Filters
@@ -15,7 +15,7 @@ const Search = () => {
   const [distance, setDistance] = useState("");
   const [location, setLocation] = useState("");
 
-  const [type, setType] = useState(species);
+  const [type, setType] = useState("");
   const [typeOptions, setTypeOptions] = useState([]);
   const [breed, setBreed] = useState([]);
   const [breedOptions, setBreedOptions] = useState([]);
@@ -44,9 +44,43 @@ const Search = () => {
   const [categoryOptions, setCategoryOptions] = useState(CATEGORY);
 
   const [filterList, setFilterList] = useState([]);
+  const storage = window.localStorage;
 
   useEffect(() => {
-    if (species !== "Pet") setFilterList([...[species]]);
+    if (state.species) {
+      console.log(state.species);
+      setType(state.species);
+      setFilterList([
+        ...[
+          {
+            name: state.species,
+            active: true,
+            code: "dog",
+          },
+        ],
+      ]);
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(storage.getItem("pet-types"));
+    const petTypes = JSON.parse(storage.getItem("pet-types"));
+    if (!petTypes || Date.now() > Number(petTypes.expires)) {
+      getTypes()
+        .then((result) => {
+          const types = result.data.data.types;
+          const typeStore = {
+            expires: Date.now() + 259200, //Expires in 3 days,
+            types: types,
+          };
+          storage.setItem("pet-types", JSON.stringify(typeStore));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      console.log(petTypes);
+    }
   }, []);
 
   const removeFromFilterList = (optionItem) => {
@@ -73,7 +107,7 @@ const Search = () => {
     <div className="search-container">
       <div className="search-header">
         <div className="filter-summary">
-          <p>View All Adoptable {species}s</p>
+          <p>View All Adoptable {type ? type : "Pet"}s</p>
           <div className="location-specification">
             {location ? (
               <p>Within 100 miles of None</p>
@@ -138,7 +172,7 @@ const Search = () => {
               addToFilter={updateFilterList}
               removeFromFilter={removeFromFilterList}
             />
-             <FilterOptions
+            <FilterOptions
               name="Trait"
               options={CATEGORY}
               multipleValues={true}
