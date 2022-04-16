@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { AiFillCheckCircle } from "react-icons/ai";
+import ReactTooltip from "react-tooltip";
 
 /**
  * Select options for a filter.
@@ -11,11 +12,10 @@ import { AiFillCheckCircle } from "react-icons/ai";
  * @param {function} remove filter variable to clear
  * @param {boolean} isBool true if filter variable is a boolean
  * or false if it is a string
- * @param {boolean} conditional true if an option's value if based
- * on another option
- * @param {string} conditionalUpon the value on which this option
- * is dependent
  * @param {function} setSingleFilter required only when multiple value is false.
+ * @param {boolean} dependsOnType true if an option's value if based
+ * on the type of animal
+ * @param {string} type animal type
  * @returns FilterOptions
  */
 const FilterOptions = ({
@@ -23,9 +23,9 @@ const FilterOptions = ({
   options,
   multipleValues,
   addToFilter,
-  conditional,
-  conditionalUpon,
   setSingleFilter,
+  dependsOnType,
+  type,
 }) => {
   const optionsBox = useRef(null);
   const [optionsVisible, setOptionsVisible] = useState(false);
@@ -47,49 +47,64 @@ const FilterOptions = ({
 
   const handleClickOption = (optionItem) => {
     let remove = undefined;
-    let add = undefined;
+    let add = optionItem;
+    if (!multipleValues) setSingleFilter(optionItem.code);
     if (!optionItem.active) {
       options.forEach((option) => {
         if (!multipleValues && option.active) {
           remove = option;
         }
 
-        if (option.name === optionItem.name) {
-          option.active = true;
-          add = option;
-        }
+        // if (option.name === optionItem.name) {
+        //   option.active = true;
+        //   add = option;
+        // }
       });
       addToFilter(add, remove);
     }
   };
 
   return (
-    <div>
-      <div className="select-container" onClick={openOptions} ref={optionsBox}>
+    <>
+      <div
+        className="select-container"
+        onClick={openOptions}
+        ref={optionsBox}
+        data-tip={dependsOnType && !type ? "Type is Required" : ""}
+      >
         <p>{name}</p>
         <BsChevronDown size={11} />
         <div
-          className={`options-list ${optionsVisible && "options-list-open"}`}
+          className={`options-list ${
+            optionsVisible && !(dependsOnType && !type) && "options-list-open"
+          }`}
         >
-          {options.map((option, index) => {
-            return (
-              <div
-                key={index}
-                className="option-list-items"
-                onClick={() => {
-                  handleClickOption(option);
-                }}
-              >
-                <p>{option.name}</p>
-                {option.active && (
-                  <AiFillCheckCircle size={13} color="#5199FF" />
-                )}
-              </div>
-            );
-          })}
+          {options && options.length <= 0 ? (
+            <div className="option-list-items">
+              <p>Loading...</p>
+            </div>
+          ) : (
+            options.map((option, index) => {
+              return (
+                <div
+                  key={index}
+                  className="option-list-items"
+                  onClick={() => {
+                    handleClickOption(option);
+                  }}
+                >
+                  <p>{option.name}</p>
+                  {option.active && (
+                    <AiFillCheckCircle size={13} color="#5199FF" />
+                  )}
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
-    </div>
+      <ReactTooltip effect="solid" />
+    </>
   );
 };
 

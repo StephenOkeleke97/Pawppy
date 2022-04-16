@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { updateGlobal } from "../redux/reducers/global";
 import Button from "../components/Button";
-import { CATEGORY } from "../filters/categories";
+import { getTrait } from "../filters/categories";
 import QuickCategory from "../components/QuickCategory";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -12,13 +12,16 @@ const Browse = () => {
   const dispatch = useDispatch();
   const quickCategoryContainer = useRef(null);
   const navigate = useNavigate();
+  const sessionStorage = window.sessionStorage;
+  const category = getTrait();
 
   useEffect(() => {
     dispatch(updateGlobal({ navBackground: "#fff", navText: "#6D6E71" }));
   }, []);
 
   const goToSearch = (species) => {
-    navigate("/browse/search", {state: {species: species}});
+    sessionStorage.removeItem("filter");
+    navigate("/search", {state: {species: species}});
   }
 
   const handleScroll = (direction) => {
@@ -80,7 +83,7 @@ const Browse = () => {
           <h2>Explore one of these categories</h2>
         </div>
         <div className="browse-quick-category" ref={quickCategoryContainer}>
-          {CATEGORY.map((category, index) => {
+          {category.map((category, index) => {
             return (
               <QuickCategory
                 name={category.name}

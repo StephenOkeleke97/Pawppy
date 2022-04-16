@@ -25,7 +25,7 @@ ReactDOM.render(
           <Routes>
             <Route path="/" element={<App />} />
             <Route path="browse" element={<Browse />} />
-            <Route path="/browse/search" element={<Search />} />
+            <Route path="/search" element={<Search />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="signin" element={<SignIn />} />
           </Routes>

@@ -276,11 +276,14 @@ input[type="number"] {
   justify-content: space-between;
 }
 
-.browse-search-buttons {
-  width: 32%;
+.browse-search-buttons, .filter-button {
   box-shadow: 2px 2px 3px #bfbebe;
   font-size: 14px;
   background-color: #e85668;
+}
+
+.browse-search-buttons {
+  width: 32%;
 }
 
 .browse-quick-category-header {
@@ -431,6 +434,7 @@ input[type="number"] {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  width: 80%;
 }
 
 .filter-select {
@@ -473,6 +477,8 @@ input[type="number"] {
   box-shadow: 1px 1px 4px #cbcaca;
   min-width: 120px;
   white-space: nowrap;
+  max-height: 300px;
+  overflow: scroll;
 }
 
 .options-list-open {
