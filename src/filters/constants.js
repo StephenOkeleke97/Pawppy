@@ -27,7 +27,7 @@ export const getSize = () => {
     {
       name: "extra large",
       active: false,
-      code: "xLarge",
+      code: "Extra Large",
       isSize: true,
     },
   ];

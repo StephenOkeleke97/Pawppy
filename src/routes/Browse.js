@@ -5,14 +5,13 @@ import Button from "../components/Button";
 import { getTrait } from "../filters/categories";
 import QuickCategory from "../components/QuickCategory";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { Outlet, useNavigate } from "react-router-dom";
+import { createSearchParams, Outlet, useNavigate } from "react-router-dom";
 import Search from "./Search";
 
 const Browse = () => {
   const dispatch = useDispatch();
   const quickCategoryContainer = useRef(null);
   const navigate = useNavigate();
-  const sessionStorage = window.sessionStorage;
   const category = getTrait();
 
   useEffect(() => {
@@ -20,8 +19,18 @@ const Browse = () => {
   }, []);
 
   const goToSearch = (species) => {
-    sessionStorage.removeItem("filter");
-    navigate("/search", {state: {species: species}});
+    if (species) {
+      navigate({
+        pathname: "/search",
+        search: createSearchParams({
+          type: species
+        }).toString()
+      });
+    } else {
+      navigate({
+        pathname: "/search",
+      });
+    }
   }
 
   const handleScroll = (direction) => {

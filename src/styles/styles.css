@@ -496,6 +496,31 @@ input[type="number"] {
   background-color: #f4f4f4;
 }
 
+/* ANIMALS */
+.animal-container {
+  padding: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.animal-card {
+  width: 300px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 1px 1px 5px rgb(143, 143, 143);
+}
+
+.animal-card-image-container {
+  height: 300px;
+}
+
+.animal-card-image {
+  width: 100%;
+  height: 100%;
+}
+
 
 
 /* MEDIA QUERIES */

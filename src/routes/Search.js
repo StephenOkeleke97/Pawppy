@@ -1,31 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import {
+  createSearchParams,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { getTrait } from "../filters/categories";
 import FilterListItem from "../components/FilterListItem";
 import FilterOptions from "../components/FilterOptions";
 import {
-  AGE,
-  COAT,
-  GENDER,
   getAge,
   getCoat,
   getColors,
   getGender,
   getSize,
   getStatus,
-  // SIZE,
-  STATUS,
   transformBreeds,
   transformOrganizations,
   transformType,
 } from "../filters/constants";
-import { getBreed, getOrganizations, getTypes } from "../api/PetFinderService";
+import {
+  getAnimals,
+  getBreed,
+  getOrganizations,
+  getTypes,
+} from "../api/PetFinderService";
 import Button from "../components/Button";
 import { getActiveFilter, getTraitActive } from "../filters/activeFilters";
+import Animals from "../components/Animals";
 
 const Search = () => {
-  const { state } = useLocation();
-
+  const [searchParams, setSearchParams] = useSearchParams();
   /**
    * Filters
    */
@@ -44,43 +49,79 @@ const Search = () => {
   const [statusOptions] = useState(getStatus());
   const [traitOptions] = useState(getTrait());
   const [organizationOptions, setOrganizationOptions] = useState([]);
+  const [animals, setAnimals] = useState([]);
+  const [filterChanged, setFilterChanged] = useState(false);
 
   const [filterList, setFilterList] = useState([]);
   const storage = window.localStorage;
-  const sessionStorage = window.sessionStorage;
+  const navigation = useNavigate();
 
+  useEffect(() => {
+    if (filterList) setFilterChanged(true);
+  }, [filterList]);
   /**
-   * Set type to type or species from
-   * navigation source when page mounts only
-   * if the filter list in session storage is empty.
-   * If navigation source did not specify type,
-   * do nothing.
    */
   useEffect(() => {
-    if (state.species) {
-      typeOptions.forEach((type) => {
-        if (type.code.toLowerCase() === state.species.toLowerCase()) {
-          const filter = sessionStorage.getItem("filter");
-          if (!filter) {
-            setType(state.species);
-            type.active = true;
-            setFilterList([...[type]]);
-          }
-        }
-      });
-      // console.log(state.species);
-      // setType(state.species);
-      // setFilterList([
-      //   ...[
-      //     {
-      //       name: state.species,
-      //       active: true,
-      //       code: state.species,
-      //     },
-      //   ],
-      // ]);
+    const keys = Array.from(searchParams.keys());
+    if (keys.length > 0) {
+      loadFilters(keys);
+    } else {
     }
+    handleSearchFilter(true);
   }, [typeOptions]);
+
+  const loadFilters = (keys) => {
+    const keyMap = {};
+    keys.forEach((key) => {
+      keyMap[key] = searchParams.get(key);
+    });
+    const filter = [];
+    if (keyMap.type) loadType(keyMap.type, filter);
+    if (keyMap.size) loadOption(keyMap.size, sizeOptions, filter);
+    if (keyMap.gender) loadOption(keyMap.gender, genderOptions, filter);
+    if (keyMap.age) loadOption(keyMap.age, ageOptions, filter);
+    if (keyMap.coat) loadOption(keyMap.coat, coatOptions, filter);
+    if (keyMap.status) loadOption(keyMap.status, statusOptions, filter);
+    if (keyMap.organization)
+      loadOption(keyMap.organization, organizationOptions, filter);
+    if (keyMap["good_with_children"]) loadTrait("good_with_children", filter);
+    if (keyMap["good_with_cats"]) loadTrait("good_with_cats", filter);
+    if (keyMap["good_with_dogs"]) loadTrait("good_with_dogs", filter);
+    if (keyMap["declawed"]) loadTrait("declawed", filter);
+    if (keyMap["special_needs"]) loadTrait("special_needs", filter);
+    if (keyMap["house_trained"]) loadTrait("house_trained", filter);
+
+    setFilterList(filter);
+  };
+
+  const loadType = (type, filterList) => {
+    setType(type);
+    typeOptions.forEach((typeOption) => {
+      if (typeOption.code.toLowerCase() === type.toLowerCase()) {
+        typeOption.active = true;
+        filterList.push(typeOption);
+      }
+    });
+  };
+
+  const loadTrait = (trait, filterList) => {
+    traitOptions.forEach((traitOption) => {
+      if (traitOption.code === trait) {
+        traitOption.active = true;
+        filterList.push(traitOption);
+      }
+    });
+  };
+
+  const loadOption = (option, options, filterList) => {
+    const optionList = option.split(",");
+    options.forEach((o) => {
+      if (optionList.some((item) => item === o.code)) {
+        o.active = true;
+        filterList.push(o);
+      }
+    });
+  };
 
   /**
    * Get animal types on component mount
@@ -127,7 +168,6 @@ const Search = () => {
     ) {
       getOrganizations()
         .then((result) => {
-          console.log(result);
           const organizations = result.data.organizations;
           const organizationsStore = {
             expires: Date.now() + 259200 * 1000, //Expires in 3 days,
@@ -157,103 +197,14 @@ const Search = () => {
         .then((result) => {
           const breeds = transformBreeds(result.data.breeds);
           setBreedOptions(breeds);
+          const colors = getColors(type, typeOptions);
+          setColorOptions(colors);
         })
         .catch((error) => {
           console.log(error);
         });
-
-      const colors = getColors(type, typeOptions);
-      setColorOptions(colors);
     }
   }, [type]);
-
-  useEffect(() => {
-    let filterFromStorage = sessionStorage.getItem("filter");
-    if (filterFromStorage) {
-      const filter = JSON.parse(filterFromStorage);
-      loadType(filter);
-      loadSize(filter);
-      loadGender(filter);
-      loadAge(filter);
-      loadCoat(filter);
-      loadStatus(filter);
-      setFilterList(filter);
-    }
-  }, [typeOptions]);
-
-  const loadType = (filter) => {
-    let activeType = filter.filter((option) => option.isType);
-    console.log(activeType);
-    if (activeType.length > 0) {
-      for (let i = 0; i < typeOptions.length; i++) {
-        if (typeOptions[i] && typeOptions[i].name === activeType[0].name) {
-          typeOptions[i] = activeType[0];
-          setType(typeOptions[i].code);
-        }
-      }
-    }
-  };
-
-  const loadSize = (filter) => {
-    let activeSizes = filter.filter((option) => option.isSize);
-    for (let i = 0; i < sizeOptions.length; i++) {
-      const activeSize = activeSizes.filter(
-        (size) => size.code === sizeOptions[i].code
-      )[0];
-      if (activeSize) {
-        sizeOptions[i] = activeSize;
-      }
-    }
-  };
-
-  const loadGender = (filter) => {
-    let activeGenders = filter.filter((option) => option.isGender);
-    for (let i = 0; i < genderOptions.length; i++) {
-      const activeGender = activeGenders.filter(
-        (gender) => gender.code === genderOptions[i].code
-      )[0];
-      if (activeGender) {
-        genderOptions[i] = activeGender;
-      }
-    }
-  };
-
-  const loadAge = (filter) => {
-    let activeAges = filter.filter((option) => option.isAge);
-    for (let i = 0; i < ageOptions.length; i++) {
-      const activeAge = activeAges.filter(
-        (age) => age.code === ageOptions[i].code
-      )[0];
-      if (activeAge) {
-        ageOptions[i] = activeAge;
-      }
-    }
-  }
-
-  const loadCoat = (filter) => {
-    let activeCoats = filter.filter((option) => option.isCoat);
-    console.log(activeCoats)
-    for (let i = 0; i < coatOptions.length; i++) {
-      const activeCoat = activeCoats.filter(
-        (coat) => coat.code === coatOptions[i].code
-      )[0];
-      if (activeCoat) {
-        coatOptions[i] = activeCoat;
-      }
-    }
-  }
-
-  const loadStatus = (filter) => {
-    let activeStatus = filter.filter((option) => option.isStatus);
-    for (let i = 0; i < statusOptions.length; i++) {
-      const status = activeStatus.filter(
-        (stat) => stat.code === statusOptions[i].code
-      )[0];
-      if (status) {
-        statusOptions[i] = status;
-      }
-    }
-  }
 
   /**
    * Remove item from filter list. Only called when
@@ -269,7 +220,6 @@ const Search = () => {
     else temp = filterList.filter((item) => item.name !== optionItem.name);
     optionItem.active = false;
     setFilterList(temp);
-    sessionStorage.setItem("filter", JSON.stringify(temp));
   };
 
   /**
@@ -289,7 +239,6 @@ const Search = () => {
     }
     add.active = true;
     setFilterList([...temp, add]);
-    sessionStorage.setItem("filter", JSON.stringify([...temp, add]));
   };
 
   /**
@@ -314,38 +263,61 @@ const Search = () => {
     return temp;
   };
 
-  const handleSearchFilter = () => {
-    const typeParams = type;
-    const colorParams = color;
-    const breedParams = getActiveFilter(breedOptions);
-    const sizeParams = getActiveFilter(sizeOptions);
-    const ageParams = getActiveFilter(ageOptions);
-    const genderParams = getActiveFilter(genderOptions);
-    const coatParams = getActiveFilter(coatOptions);
-    const statusParams = getActiveFilter(statusOptions);
-    const organizationParams = getActiveFilter(organizationOptions);
-    const goodWithChildren = getTraitActive("Good With Children", traitOptions);
-    const goodWithCats = getTraitActive("Good With Cats", traitOptions);
-    const goodWithDogs = getTraitActive("Good With Dogs", traitOptions);
-    const houseTrained = getTraitActive("House Trained", traitOptions);
-    const declawed = getTraitActive("Declawed", traitOptions);
-    const specialNeeds = getTraitActive("Special Needs", traitOptions);
+  const handleSearchFilter = (isMount = false) => {
+    const urlSearch = new URLSearchParams();
+    const params = {
+      type: type,
+      breed: getActiveFilter(breedOptions),
+      size: getActiveFilter(sizeOptions),
+      gender: getActiveFilter(genderOptions),
+      age: getActiveFilter(ageOptions),
+      color: color,
+      coat: getActiveFilter(coatOptions),
+      status: getActiveFilter(statusOptions),
+      organization: getActiveFilter(organizationOptions),
+      good_with_children: getTraitActive("Good With Children", traitOptions),
+      good_with_cats: getTraitActive("Good With Cats", traitOptions),
+      good_with_dogs: getTraitActive("Good With Dogs", traitOptions),
+      house_trained: getTraitActive("House Trained", traitOptions),
+      declawed: getTraitActive("Declawed", traitOptions),
+      special_needs: getTraitActive("Special Needs", traitOptions),
+    };
+    if (params.type) urlSearch.append("type", params.type);
+    if (params.size) urlSearch.append("size", params.size);
+    if (params.gender) urlSearch.append("gender", params.gender);
+    if (params.age) urlSearch.append("age", params.age);
+    if (params.coat) urlSearch.append("coat", params.coat);
+    if (params.status) urlSearch.append("status", params.status);
+    if (params.organization)
+      urlSearch.append("organization", params.organization);
+    if (params["good_with_children"])
+      urlSearch.append("good_with_children", params["good_with_children"]);
+    if (params["good_with_cats"])
+      urlSearch.append("good_with_cats", params["good_with_cats"]);
+    if (params["good_with_dogs"])
+      urlSearch.append("good_with_dogs", params["good_with_dogs"]);
+    if (params["house_trained"])
+      urlSearch.append("house_trained", params["house_trained"]);
+    if (params.declawed) urlSearch.append("declawed", params.declawed);
+    if (params["special_needs"])
+      urlSearch.append("special_needs", params["special_needs"]);
 
-    console.log(typeParams);
-    console.log(colorParams);
-    console.log(breedParams);
-    console.log(sizeParams);
-    console.log(ageParams);
-    console.log(genderParams);
-    console.log(coatParams);
-    console.log(statusParams);
-    console.log(organizationParams);
-    console.log(goodWithChildren);
-    console.log(goodWithCats);
-    console.log(goodWithDogs);
-    console.log(houseTrained);
-    console.log(declawed);
-    console.log(specialNeeds);
+    // if (filterChanged) {
+    //   getAnimals(params)
+    //   .then((result) => {
+    //     setFilterChanged(false);
+    //     setAnimals(result.data.data.animals);
+    //     if (!isMount) {
+    //       navigation({
+    //         pathname: "/search",
+    //         search: urlSearch.toString(),
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    // }
   };
 
   return (
@@ -463,10 +435,13 @@ const Search = () => {
           <Button
             text={"Search"}
             className="filter-button"
-            onClick={handleSearchFilter}
+            onClick={() => {
+              handleSearchFilter(false);
+            }}
           />
         </div>
       </div>
+      <Animals animals={animals} />
     </div>
   );
 };
