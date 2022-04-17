@@ -49,16 +49,17 @@ const Search = () => {
   const [statusOptions] = useState(getStatus());
   const [traitOptions] = useState(getTrait());
   const [organizationOptions, setOrganizationOptions] = useState([]);
-  const [animals, setAnimals] = useState([]);
-  const [filterChanged, setFilterChanged] = useState(false);
+  const [animals, setAnimals] = useState(null);
+  const [typeLoaded, setTypeLoaded] = useState(false);
+  const [pageShowing, setPageShowing] = useState(1);
 
   const [filterList, setFilterList] = useState([]);
   const storage = window.localStorage;
   const navigation = useNavigate();
 
-  useEffect(() => {
-    if (filterList) setFilterChanged(true);
-  }, [filterList]);
+  // useEffect(() => {
+  //   if (filterList) setFilterChanged(true);
+  // }, [filterList]);
   /**
    */
   useEffect(() => {
@@ -67,7 +68,8 @@ const Search = () => {
       loadFilters(keys);
     } else {
     }
-    handleSearchFilter(true);
+
+    if (typeLoaded) handleSearchFilter(true);
   }, [typeOptions]);
 
   const loadFilters = (keys) => {
@@ -136,6 +138,8 @@ const Search = () => {
     if (!petTypes || Date.now() > Number(petTypes.expires)) {
       getTypes()
         .then((result) => {
+          setTypeOptions(result.data.types);
+          setTypeLoaded(true);
           const types = result.data.types;
           const typeStore = {
             expires: Date.now() + 259200 * 1000, //Expires in 3 days,
@@ -149,6 +153,8 @@ const Search = () => {
     } else {
       const types = transformType(petTypes.types);
       setTypeOptions(types);
+      setTypeLoaded(true);
+
     }
   }, []);
 
@@ -263,7 +269,7 @@ const Search = () => {
     return temp;
   };
 
-  const handleSearchFilter = (isMount = false) => {
+  const handleSearchFilter = (isMount = false, page = 1) => {
     const urlSearch = new URLSearchParams();
     const params = {
       type: type,
@@ -281,6 +287,8 @@ const Search = () => {
       house_trained: getTraitActive("House Trained", traitOptions),
       declawed: getTraitActive("Declawed", traitOptions),
       special_needs: getTraitActive("Special Needs", traitOptions),
+      page: page,
+      limit: 40,
     };
     if (params.type) urlSearch.append("type", params.type);
     if (params.size) urlSearch.append("size", params.size);
@@ -302,23 +310,36 @@ const Search = () => {
     if (params["special_needs"])
       urlSearch.append("special_needs", params["special_needs"]);
 
-    // if (filterChanged) {
-    //   getAnimals(params)
-    //   .then((result) => {
-    //     setFilterChanged(false);
-    //     setAnimals(result.data.data.animals);
-    //     if (!isMount) {
-    //       navigation({
-    //         pathname: "/search",
-    //         search: urlSearch.toString(),
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    // }
+    console.log(page);
+    getAnimals(params)
+      .then((result) => {
+        console.log(result.data);
+        // setFilterChanged(false);
+        setAnimals(result.data.data);
+        if (!isMount) {
+          navigation({
+            pathname: "/search",
+            search: urlSearch.toString(),
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+
+  const setPage = (page) => {
+    console.log(page);
+    // setFilterChanged(true);
+    handleSearchFilter(false, page);
+  };
+
+  const clearFilter = () => {
+    filterList.forEach(option => {
+      option.active = false;
+    });
+    setFilterList([]);
+  }
 
   return (
     <div className="search-container">
@@ -336,7 +357,10 @@ const Search = () => {
         </div>
 
         <div className="filter-container">
+          <div className="filter-header">
           <h1>Filters</h1>
+          <button onClick={clearFilter}>Clear</button>
+          </div>
           <div className="filter-list">
             {filterList.length <= 0 ? (
               <p>No filters selected</p>
@@ -441,7 +465,7 @@ const Search = () => {
           />
         </div>
       </div>
-      <Animals animals={animals} />
+      <Animals animalsObject={animals} changePage={setPage} />
     </div>
   );
 };

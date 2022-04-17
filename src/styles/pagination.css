@@ -1,0 +1,35 @@
+.pagination-container {
+    padding: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .pagination-item {
+    background-color: #f7f7f7;
+    font-size: 12px;
+    font-weight: 500;
+    height: 25px;
+    width: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  .pagination-item-active {
+    font-weight: 900;
+    background-color: #dddddd;
+  }
+  
+  .pagination-item p {
+    margin: 0;
+  }
+  
+  .pagination-end-page {
+    color: #d1d3d4;
+  }
+  
+  .pagination-ellipses {
+    background: none;
+  }
