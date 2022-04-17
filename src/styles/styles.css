@@ -276,7 +276,8 @@ input[type="number"] {
   justify-content: space-between;
 }
 
-.browse-search-buttons, .filter-button {
+.browse-search-buttons,
+.filter-button {
   box-shadow: 2px 2px 3px #bfbebe;
   font-size: 14px;
   background-color: #e85668;
@@ -373,7 +374,7 @@ input[type="number"] {
 .search-container h1 {
   font-weight: 500;
   font-size: 24px;
-} 
+}
 
 .filter-summary {
   font-size: 12px;
@@ -582,16 +583,13 @@ input[type="number"] {
   background-color: #fff;
 }
 
-
-
-
 /* MEDIA QUERIES */
 @media (max-width: 1100px) {
   .browse-search-options-text {
     width: 70%;
   }
 
-   .filter-list {
+  .filter-list {
     width: 100%;
   }
 }
@@ -680,7 +678,6 @@ input[type="number"] {
   .browse-search-buttons {
     font-size: 11px;
   }
-  
 }
 
 @media (max-width: 400px) {

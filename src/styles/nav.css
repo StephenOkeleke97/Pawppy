@@ -89,7 +89,12 @@
 
 .hamburger-menu {
   cursor: pointer;
-  z-index: 5;
+  z-index: 3;
+  position: relative;
+  height: 20px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
 }
 
 .hamburger-icon {
@@ -100,14 +105,28 @@
 
 .ham-bottom {
   margin: 0;
+  position: absolute;
+  bottom: 0;
+}
+.ham-top {
+  position: absolute;
+  top: 0;
+}
+
+.ham-middle {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .ham-bottom-open {
-  transform: translateY(-10px) rotate(45deg);
+  bottom: 50%;
+  transform: translateY(50%) rotate(45deg);
 }
 
 .ham-top-open {
-  transform: translateY(10px) rotate(-45deg);
+  top: 50%;
+  transform: translateY(-50%) rotate(-45deg);
 }
 
 .ham-middle-open {

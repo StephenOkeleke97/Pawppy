@@ -15,6 +15,7 @@ import SignIn from "./routes/SignIn";
 import Search from "./routes/Search";
 import User from "./routes/User";
 import Profile from "./routes/Profile";
+import Favorites from "./routes/Favorites";
 
 let persistor = persistStore(store);
 
@@ -32,6 +33,7 @@ ReactDOM.render(
             <Route path="signin" element={<SignIn />} />
             <Route path="user" element={<User />}>
               <Route path="profile" element={<Profile />} />
+              <Route path="favorites" element={<Favorites />} />
             </Route>
           </Routes>
         </BrowserRouter>

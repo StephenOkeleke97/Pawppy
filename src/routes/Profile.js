@@ -1,9 +1,17 @@
-import React from 'react'
+import React from "react";
 
 const Profile = () => {
   return (
-    <div className='container'>Profile</div>
-  )
-}
+    <div className="user-tabs-container profile-container">
+      <div className="profile-header">
+        <h1>Account</h1>
+      </div>
 
-export default Profile
+      <div className="profile-pic-container">
+
+      </div>
+    </div>
+  );
+};
+
+export default Profile;
