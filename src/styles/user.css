@@ -1,68 +1,183 @@
 /* USER */
 .user-container {
-    display: flex;
-    padding-top: 60px;
-  }
-  
-  .user-nav {
-    min-height: calc(100vh - 60px);
-    width: 300px;
-    background-color: #06041d;
-    display: flex;
-    flex-direction: column;
-    padding-top: 50px;
-    padding-left: 80px;
-  }
-  
-  .mobile-sidenav {
-    min-height: calc(100vh - 60px);
-    background-color: #06041d;
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-    padding-top: 50px;
-    align-items: center;
-    width: 250px;
-    transition: all 0.2s ease-in;
-    transform: translateX(-190px);
-    align-items: flex-end;
-    padding-right: 10px;
-    position: absolute;
-  }
-  
-  .mobile-sidenav-open {
-    transform: translateX(0);
-    align-items: flex-start;
-    padding-left: 80px;
-  }
-  
-  .sidebar-nav {
-    display: flex;
-    align-items: center;
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  
-  .sidebar-nav p {
-    margin-left: 7px;
-  }
-  
-  .sidebar-close {
-    align-self: flex-end;
+  display: flex;
+  padding-top: 60px;
+}
+
+.user-nav {
+  min-height: calc(100vh - 60px);
+  width: 300px;
+  background-color: #06041d;
+  display: flex;
+  flex-direction: column;
+  padding-top: 50px;
+  padding-left: 80px;
+}
+
+.mobile-sidenav {
+  min-height: calc(100vh - 60px);
+  background-color: #06041d;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  padding-top: 50px;
+  align-items: center;
+  width: 250px;
+  transition: all 0.2s ease-in;
+  transform: translateX(-190px);
+  align-items: flex-end;
+  padding-right: 10px;
+  position: absolute;
+  z-index: 2;
+}
+
+.mobile-sidenav-open {
+  transform: translateX(0);
+  align-items: flex-start;
+  padding-left: 80px;
+}
+
+.sidebar-nav {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.sidebar-nav p {
+  margin-left: 7px;
+}
+
+.sidebar-close {
+  align-self: flex-end;
+}
+
+/* PROFILE */
+.profile-container {
+  flex-grow: 1;
+  padding: 40px;
+}
+
+.profile-container h1,
+.profile-container h2 {
+  font-weight: 500;
+}
+
+.profile-pic-container {
+  padding: 20px 0;
+}
+
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+}
+
+.profile-pic-image {
+  width: 100%;
+  height: 100%;
+}
+
+.upload-image {
+  position: absolute;
+  background-color: #0000004d;
+  left: 0;
+  right: 0;
+  top: 50%;
+  bottom: 0;
+  transform: translateY(100%);
+  transition: transform 0.1s ease-in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.profile-pic:hover .upload-image {
+  transform: translateY(0);
+}
+
+.upload-image-button {
+  padding-left: 30px;
+  padding-top: 15px;
+}
+
+.profile-name-container {
+  display: flex;
+  align-items: center;
+}
+
+.profile-name {
+  margin-left: 20px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.editname-icon {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.editname-icon:hover {
+  color: dodgerblue;
+}
+
+.contact-info-container {
+  margin-bottom: 30px;
+}
+
+.contact-info {
+  width: 60%;
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+  padding-right: 10px;
+  border-bottom: 1px solid #e2e2e2;
+  color: #7c7c7c;
+  font-size: 15px;
+}
+
+.contact-info > p:first-child {
+  width: 35%;
+  font-size: 12px;
+}
+
+.contact-info-clickable {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.contact-info:hover {
+  background-color: rgb(246, 246, 246);
+}
+
+@media (max-width: 1000px) {
+  .profile-pic {
+    width: 70px;
+    height: 70px;
   }
 
-  /* PROFILE */
-  .profile-container {
-    border: 2px solid red;
-    flex-grow: 1;
-    padding-left: 40px;
-    padding-top: 40px;
-
+  .upload-image-button {
+    padding-left: 10px;
   }
 
-  /* MENU COLLAPSES */
+  .email-info {
+    width: 80%;
+  }
+}
+/* MENU COLLAPSES */
 @media (max-width: 700px) {
-    .user-tabs-container {
-      margin-left: 60px;
-    }
+  .user-tabs-container {
+    margin-left: 60px;
   }
+
+  .contact-info {
+    width: 100%;
+  }
+}

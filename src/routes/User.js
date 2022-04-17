@@ -21,7 +21,7 @@ const User = () => {
   return (
     <div className="user-container">
       {windowWidth > 700 ? <WebSideNav /> : <MobileSideNav />}
-      <Outlet />
+      <Outlet context={windowWidth}/>
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import HamburgerMenu from "./HamburgerMenu";
 import LoggedInNav from "./LoggedInNav";
