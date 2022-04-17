@@ -81,7 +81,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="login-container container">
       <div className="login-left-pane signin-left-pane" />
       <div className="login-right-pane signin-right-pane">
         <div className="login">

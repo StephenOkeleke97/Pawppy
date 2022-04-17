@@ -23,6 +23,10 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+.container {
+  padding-top: 60px;
+}
+
 /* LANDING PAGE OR HOME PAGE */
 .landing-container {
   min-height: 100vh;
@@ -222,10 +226,6 @@ input[type="number"] {
 }
 
 /* BROWSE */
-.browse-container {
-  padding-top: 50px;
-}
-
 .browse-banner {
   height: 40vh;
   color: #fff;
@@ -447,6 +447,24 @@ input[type="number"] {
   margin-bottom: 10px;
 }
 
+.filter-header {
+  display: flex;
+  align-items: center;
+}
+
+.filter-header h1 {
+  margin-right: 20px;
+}
+
+.filter-header button {
+  border: none;
+  cursor: pointer;
+  background-color: #fff;
+  text-decoration: underline;
+  color: #9c9c9c;
+  font-size: 12px;
+}
+
 .select-container {
   display: flex;
   padding: 5px 10px;
@@ -511,6 +529,7 @@ input[type="number"] {
   overflow: hidden;
   box-shadow: 1px 1px 5px rgb(143, 143, 143);
   cursor: pointer;
+  position: relative;
 }
 
 .animal-card-image-container {
@@ -543,6 +562,24 @@ input[type="number"] {
 
 .animal-card-description p:first-of-type {
   margin-right: 10px;
+}
+
+.favorite-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50px;
+  background-color: rgba(255, 255, 255, 0.562);
+  color: #e85668;
+}
+
+.favorite-icon:hover {
+  background-color: #fff;
 }
 
 

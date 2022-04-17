@@ -113,7 +113,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="login-container container">
       <div className="login-left-pane" />
       <div className="login-right-pane">
         <div className="login">

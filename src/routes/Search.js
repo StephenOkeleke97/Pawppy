@@ -339,10 +339,12 @@ const Search = () => {
       option.active = false;
     });
     setFilterList([]);
+    setType("");
+    setColor("");
   }
 
   return (
-    <div className="search-container">
+    <div className="search-container container">
       <div className="search-header">
         <div className="filter-summary">
           <p>View All Adoptable {type ? type : "Pet"}s</p>

@@ -27,7 +27,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="landing-container">
+    <div className="landing-container container">
       <div className="landing-dog">
         <img
           src="/images/landingbg1.png"

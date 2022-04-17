@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { BsSuitHeart } from "react-icons/bs";
 
 const Animal = ({ animal }) => {
   const imageSrc = animal.photos;
@@ -21,6 +22,9 @@ const Animal = ({ animal }) => {
           <p>{animal.age} &#8226;</p>
           <p>{animal.breeds.primary}</p>
         </div>
+      </div>
+      <div className="favorite-icon">
+        <BsSuitHeart size={25}/>
       </div>
     </div>
   );

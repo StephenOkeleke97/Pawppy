@@ -18,7 +18,7 @@ const Browse = () => {
     dispatch(updateGlobal({ navBackground: "#fff", navText: "#6D6E71" }));
   }, []);
 
-  const goToSearch = (species) => {
+  const handleClickType = (species) => {
     if (species) {
       navigate({
         pathname: "/search",
@@ -31,6 +31,15 @@ const Browse = () => {
         pathname: "/search",
       });
     }
+  }
+
+  const handleClickCategory = (category) => {
+    const searchParams = {};
+    searchParams[category] = true;
+    navigate({
+      pathname: "/search",
+      search: createSearchParams(searchParams).toString()
+    })
   }
 
   const handleScroll = (direction) => {
@@ -56,7 +65,7 @@ const Browse = () => {
   };
 
   return (
-    <div className="browse-container">
+    <div className="browse-container container">
       <div className="browse-banner">
         <div className="browse-banner-overlay"/>
         <h1>Adopt a dog or cat that fits your lifestyle</h1>
@@ -73,15 +82,15 @@ const Browse = () => {
           <div className="browse-search-options-buttons">
             <Button className="browse-search-buttons" text={"View All"} 
             onClick={() => {
-              goToSearch("");
+              handleClickType("");
             }}/>
             <Button className="browse-search-buttons" text={"View Dogs"} 
              onClick={() => {
-              goToSearch("Dog");
+              handleClickType("Dog");
             }}/>
             <Button className="browse-search-buttons" text={"View Cats"} 
              onClick={() => {
-              goToSearch("Cat");
+              handleClickType("Cat");
             }}/>
           </div>
         </div>
@@ -98,6 +107,8 @@ const Browse = () => {
                 name={category.name}
                 key={index}
                 image={category.image}
+                onClick={handleClickCategory}
+                code={category.code}
               />
             );
           })}

@@ -13,6 +13,8 @@ import store from "./redux/store/store";
 import SignUp from "./routes/SignUp";
 import SignIn from "./routes/SignIn";
 import Search from "./routes/Search";
+import User from "./routes/User";
+import Profile from "./routes/Profile";
 
 let persistor = persistStore(store);
 
@@ -28,6 +30,9 @@ ReactDOM.render(
             <Route path="/search" element={<Search />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="signin" element={<SignIn />} />
+            <Route path="user" element={<User />}>
+              <Route path="profile" element={<Profile />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </PersistGate>
