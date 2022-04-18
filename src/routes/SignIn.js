@@ -31,6 +31,12 @@ const SignIn = () => {
     dispatch(updateGlobal({ navText: "#6D6E71", navBackground: "#fff" }));
   }, []);
 
+  useEffect(() => {
+    const authenticated = document.cookie.indexOf("auth=") !== -1;
+
+    if (authenticated) navigate("/");
+  });
+
   const getPasswordType = (passwordIsVisible) => {
     if (passwordIsVisible) return "text";
     return "password";
@@ -48,8 +54,10 @@ const SignIn = () => {
 
   const signInSuccess = (data) => {
     setLoading("");
+    console.log(data);
     dispatch(setUser(data.user));
-    // console.log(data);
+    navigate("/");
+    // window.location.reload();
   }
 
   const signInFailure = (data = {

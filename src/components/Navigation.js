@@ -7,8 +7,8 @@ import MobileNav from "./MobileNav";
 const Navigation = () => {
   const textColor = useSelector((state) => state.globalReducer.value).navText;
   const backgroundColor = useSelector((state) => state.globalReducer.value).navBackground;
-  const user = useSelector((state) => state.userReducer.value.user);
-
+  const authenticated = document.cookie.indexOf("auth=") !== -1;
+ 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
     function handleResize() {
@@ -28,8 +28,8 @@ const Navigation = () => {
   return (
     <div style={style} className='nav-container'>
       {windowWidth > 700 ?
-        <WebNav textColor={textColor} user={user}/> :
-        <MobileNav user={user}/>}
+        <WebNav textColor={textColor} authenticated={authenticated}/> :
+        <MobileNav authenticated={authenticated}/>}
     </div>
   )
 }

@@ -20,12 +20,14 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [emailIsError, setEmailIsError] = useState(false);
   const [passwordIsError, setPasswordIsError] = useState(false);
   const [confirmPasswordIsError, setConfirmPasswordIsError] = useState(false);
-  const [nameIsError, setNameIsError] = useState(false);
+  const [firstNameIsError, setFirstNameIsError] = useState(false);
+  const [lastNameIsError, setLastNameIsError] = useState(false);
   const [phoneNumberIsError, setPhoneNumberIsError] = useState(false);
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
   const [loading, setLoading] = useState("");
@@ -36,6 +38,12 @@ const SignUp = () => {
   useEffect(() => {
     dispatch(updateGlobal({ navText: "#6D6E71", navBackground: "#fff" }));
   }, []);
+
+  useEffect(() => {
+    const authenticated = document.cookie.indexOf("auth=") !== -1;
+
+    if (authenticated) navigate("/");
+  });
 
   const getPasswordType = (passwordIsVisible) => {
     if (passwordIsVisible) return "text";
@@ -58,23 +66,41 @@ const SignUp = () => {
     return regex.test(password);
   };
 
+  const validateName = (name) => {
+    return name.trim().length >= 3;
+  };
+
+  const validatePhoneNumber = (number) => {
+    return number.trim().length >= 8;
+  };
+
   const signUpSuccess = (data) => {
     setLoading("");
     dispatch(setUser(data.user));
-    // console.log(data);
-  }
+    navigate("/");
+  };
 
-  const signUpFailure = (data = {
-    message: "Something went wrong. Please try again later"
-  }) => {
+  const signUpFailure = (
+    data = {
+      message: "Something went wrong. Please try again later",
+    }
+  ) => {
     setLoading("");
     console.log(data);
-  }
+  };
 
   const handleSignUp = () => {
     if (validateInput()) {
       setLoading("Signing In...");
-      registerUser(email, password, signUpSuccess, signUpFailure);
+      registerUser(
+        email,
+        password,
+        firstName,
+        lastName,
+        phoneNumber,
+        signUpSuccess,
+        signUpFailure
+      );
     }
   };
 
@@ -89,12 +115,17 @@ const SignUp = () => {
       isValid = false;
     }
 
-    if (!name.trim()) {
-      setNameIsError(true);
+    if (!validateName(firstName)) {
+      setFirstNameIsError(true);
       isValid = false;
     }
 
-    if (!(phoneNumber.trim().length >= 8)) {
+    if (!validateName(lastName)) {
+      setLastNameIsError(true);
+      isValid = false;
+    }
+
+    if (!validatePhoneNumber(phoneNumber)) {
       setPhoneNumberIsError(true);
       isValid = false;
     }
@@ -128,14 +159,14 @@ const SignUp = () => {
                 <div className="login-input">
                   <input
                     type="text"
-                    placeholder="Name"
-                    value={name}
+                    placeholder="First Name"
+                    value={firstName}
                     onChange={(e) => {
-                      setName(e.target.value);
-                      if (nameIsError) setNameIsError(false);
+                      setFirstName(e.target.value);
+                      if (firstNameIsError) setFirstNameIsError(false);
                     }}
                   />
-                  {name.trim() && (
+                  {validateName(firstName) && (
                     <AiFillCheckCircle
                       size={validInputIconSize}
                       color="#00DC7D"
@@ -143,7 +174,33 @@ const SignUp = () => {
                     />
                   )}
                 </div>
-                {nameIsError && <p className="error-text">* Required</p>}
+                {firstNameIsError && (
+                  <p className="error-text">* Must have 3 or more characters</p>
+                )}
+              </div>
+
+              <div className="login-input-container">
+                <div className="login-input">
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={lastName}
+                    onChange={(e) => {
+                      setLastName(e.target.value);
+                      if (lastNameIsError) setLastNameIsError(false);
+                    }}
+                  />
+                  {validateName(lastName) && (
+                    <AiFillCheckCircle
+                      size={validInputIconSize}
+                      color="#00DC7D"
+                      className="input-valid-icon"
+                    />
+                  )}
+                </div>
+                {lastNameIsError && (
+                  <p className="error-text">* Must have 3 or more characters</p>
+                )}
               </div>
 
               <div className="login-input-container">
@@ -277,15 +334,17 @@ const SignUp = () => {
               </div>
 
               <div>
-                <Button text={"Sign Up"} onClick={handleSignUp} 
-                 className="sign-in-button-component"/>
+                <Button
+                  text={"Sign Up"}
+                  onClick={handleSignUp}
+                  className="sign-in-button-component"
+                />
               </div>
             </div>
 
             <div className="sign-in-prompt">
               <p>Already have an account? &nbsp;</p>
-              <span className="sign-in-button"
-              onClick={goToSignIn}>
+              <span className="sign-in-button" onClick={goToSignIn}>
                 <p>Sign In</p>
                 <AiOutlineArrowRight size={iconSize} />
               </span>
@@ -293,7 +352,7 @@ const SignUp = () => {
           </div>
         </div>
       </div>
-      <Loading loading={loading} text={loading}/>
+      <Loading loading={loading} text={loading} />
     </div>
   );
 };

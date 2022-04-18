@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import LoggedInNav from "./LoggedInNav";
 
-const WebNav = ({ textColor = "#fff", user }) => {
+const WebNav = ({ textColor = "#fff", authenticated }) => {
   const activeStyle = {
     textDecoration: "none",
     color: textColor,
@@ -34,7 +34,7 @@ const WebNav = ({ textColor = "#fff", user }) => {
             Browse
           </NavLink>
         </li>
-        {!user && <li>
+        {!authenticated && <li>
           <NavLink
             to={"signup"}
             style={({ isActive }) => (isActive ? activeStyle : inActiveStyle)}
@@ -42,7 +42,7 @@ const WebNav = ({ textColor = "#fff", user }) => {
             Sign Up
           </NavLink>
         </li>}
-        {user && <li>
+        {authenticated && <li>
           <LoggedInNav/>
         </li>}
       </ul>

@@ -128,7 +128,7 @@ input[type="number"] {
 .login-right-pane {
   width: 65%;
   padding: 80px;
-  padding-top: 100px;
+  padding-top: 70px;
   padding-bottom: 0;
 }
 
@@ -663,6 +663,7 @@ input[type="number"] {
   .login-right-pane {
     padding-left: 40px;
     padding-right: 40px;
+    padding-top: 20px;
   }
 
   .browse-banner h1 {

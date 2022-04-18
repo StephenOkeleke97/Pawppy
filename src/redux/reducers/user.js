@@ -4,7 +4,7 @@ export const user = createSlice({
   name: "user",
   initialState: {
     value: {
-      user: null,
+      user: {},
     },
   },
   reducers: {

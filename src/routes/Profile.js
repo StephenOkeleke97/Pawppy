@@ -62,7 +62,7 @@ const Profile = () => {
           </div>
 
           <div className="profile-name">
-            <p>Joseph Ashton</p>
+            <p>{user.firstName} {user.lastName}</p>
             <MdOutlineModeEditOutline
               className="editname-icon"
               onClick={handleEditName}
@@ -86,7 +86,7 @@ const Profile = () => {
         <div className="contact-info">
           <p>PHONE NUMBER</p>
           <div className="contact-info-clickable">
-            <p>{user.email}</p>
+            <p>{user.phoneNumber}</p>
             <AiOutlineRight onClick={handleEditPhoneNumber} />
           </div>
         </div>

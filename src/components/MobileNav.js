@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import HamburgerMenu from "./HamburgerMenu";
 import LoggedInNav from "./LoggedInNav";
 
-const MobileNav = ({ textColor = "#000", user }) => {
+const MobileNav = ({ textColor = "#000", authenticated }) => {
   const [navOpen, setNavOpen] = useState(false);
 
   const openMenu = () => {
@@ -38,7 +38,7 @@ const MobileNav = ({ textColor = "#000", user }) => {
   return (
     <div className="mobile-nav">
       <HamburgerMenu navOpen={navOpen} onClick={handleMenuClick} />
-      {user && <LoggedInNav />}
+      {authenticated && <LoggedInNav />}
       <div
         className={`mobile-nav-overlay ${navOpen && "mobile-nav-overlay-open"}`}
       />
@@ -71,7 +71,7 @@ const MobileNav = ({ textColor = "#000", user }) => {
                 Browse
               </NavLink>
             </li>
-            {!user && <li>
+            {!authenticated && <li>
               <NavLink
                 to={"signup"}
                 style={({ isActive }) =>
