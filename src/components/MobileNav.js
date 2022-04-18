@@ -62,13 +62,13 @@ const MobileNav = ({ textColor = "#000", authenticated }) => {
             </li>
             <li>
               <NavLink
-                to={"browse"}
+                to={"search"}
                 style={({ isActive }) =>
                   isActive ? activeStyle : inActiveStyle
                 }
                 onClick={closeMenu}
               >
-                Browse
+                Search
               </NavLink>
             </li>
             {!authenticated && <li>

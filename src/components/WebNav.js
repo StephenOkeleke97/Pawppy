@@ -28,10 +28,10 @@ const WebNav = ({ textColor = "#fff", authenticated }) => {
         </li>
         <li>
           <NavLink
-            to={"browse"}
+            to={"search"}
             style={({ isActive }) => (isActive ? activeStyle : inActiveStyle)}
           >
-            Browse
+            Search
           </NavLink>
         </li>
         {!authenticated && <li>

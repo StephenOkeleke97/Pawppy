@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { BsSuitHeart } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 const Animal = ({ animal }) => {
+  const navigation = useNavigate();
   const imageSrc = animal.photos;
   const [image, setImage] = useState("");
+
+  const goToDetails = () => {
+    navigation("/details", {
+      state: {
+        animal: animal
+      }
+    })
+  }
+
   useEffect(() => {
     if (imageSrc.length > 0) {
       setImage(imageSrc[0].full);
@@ -12,7 +23,8 @@ const Animal = ({ animal }) => {
     }
   }, []);
   return (
-    <div className="animal-card">
+    <div className="animal-card"
+    onClick={goToDetails}>
       <div className="animal-card-image-container">
         <img className="animal-card-image" src={image} alt={animal.name} />
       </div>

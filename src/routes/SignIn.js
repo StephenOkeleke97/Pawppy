@@ -57,7 +57,7 @@ const SignIn = () => {
     console.log(data);
     dispatch(setUser(data.user));
     navigate("/");
-    // window.location.reload();
+    window.location.reload();
   }
 
   const signInFailure = (data = {

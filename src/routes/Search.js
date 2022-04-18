@@ -221,6 +221,7 @@ const Search = () => {
    */
   const removeFromFilterList = (optionItem) => {
     let temp;
+    if (optionItem.isColor) setColor("");
     if (optionItem.isType)
       temp = handleRemoveTypeFromFilterList(optionItem, true);
     else temp = filterList.filter((item) => item.name !== optionItem.name);

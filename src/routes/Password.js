@@ -7,6 +7,8 @@ import {
 import { BiArrowBack } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
+import { changePassword } from "../services/UserService";
 
 const Name = () => {
   const user = useSelector((state) => state.userReducer.value.user);
@@ -22,6 +24,7 @@ const Name = () => {
   const [newPassIsError, setNewPassIsError] = useState(false);
   const [confirmPassIsError, setConfirmPassIsError] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [loading, setLoading] = useState("");
 
   const iconSize = 16;
 
@@ -44,7 +47,27 @@ const Name = () => {
     navigate(-1);
   };
 
-  const handleSave = () => {};
+  const handleSave = () => {
+    if (!oldPassword || !validatePassword(newPassword) || (newPassword !== confirmPassword)) {
+      setOldPassIsError(!oldPassword);
+      setNewPassIsError(!validatePassword(newPassword));
+      setConfirmPassIsError(newPassword !== confirmPassword);
+      return;
+    }
+
+    setLoading("Changing password...");
+    changePassword(oldPassword, newPassword, success, failure);
+  };
+
+  const success = () => {
+    setLoading("");
+    navigate(-1);
+  };
+
+  const failure = (message = "Something went wrong. Please try again later.") => {
+    setLoading("");
+    console.log(message);
+  };
 
   return (
     <div className="user-tabs-container edit-container">
@@ -202,10 +225,12 @@ const Name = () => {
 
           <div className="edit-button-container">
             <button onClick={goBack}>Cancel</button>
-            <button>Save</button>
+            <button onClick={handleSave}>Save</button>
           </div>
         </div>
       </div>
+
+      <Loading loading={loading} text={loading} />
     </div>
   );
 };

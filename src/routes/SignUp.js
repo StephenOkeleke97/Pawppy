@@ -78,6 +78,7 @@ const SignUp = () => {
     setLoading("");
     dispatch(setUser(data.user));
     navigate("/");
+    window.location.reload();
   };
 
   const signUpFailure = (

@@ -69,3 +69,64 @@ export function logout(success, failure) {
       console.log(error);
     });
 }
+
+export function changeName(firstName, lastName, success, failure) {
+  const api = host + "user/update/name";
+  const body = {
+    firstName: firstName,
+    lastName: lastName
+  }
+  axios
+    .put(api, body, {
+      withCredentials: true,
+      timeout: timeout,
+    })
+    .then((response) => {
+      success(response.data);
+    })
+    .catch((error) => {
+      failure();
+      console.log(error);
+    });
+}
+
+export function changePhoneNumber(phoneNumber, success, failure) {
+  const api = host + "user/update/phonenumber";
+  const body = {
+    phoneNumber: phoneNumber,
+  }
+  axios
+    .put(api, body, {
+      withCredentials: true,
+      timeout: timeout,
+    })
+    .then((response) => {
+      success(response.data);
+    })
+    .catch((error) => {
+      failure();
+      console.log(error);
+    });
+}
+
+export function changePassword(oldpassword, newPassword, success, failure) {
+  const api = host + "user/update/password";
+  const body = {
+    password: oldpassword,
+    newPassword: newPassword
+  }
+  axios
+    .put(api, body, {
+      withCredentials: true,
+      timeout: timeout,
+    })
+    .then((response) => {
+      success();
+    })
+    .catch((error) => {
+      if (error.response && error.response.status === 401)
+        failure("Invalid Password");
+      else failure();
+      console.log(error);
+    });
+}

@@ -17,6 +17,12 @@ const Profile = () => {
   const [filePreviewVisible, setFilePreviewVisible] = useState(false);
 
   useEffect(() => {
+    const authenticated = document.cookie.indexOf("auth=") !== -1;
+
+    if (!authenticated) navigate("/");
+  });
+
+  useEffect(() => {
     function handleFileUpload(event) {
       setFilePreviewVisible(true);
       filePreview.current.src = URL.createObjectURL(fileInput.current.files[0]);

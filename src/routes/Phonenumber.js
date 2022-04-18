@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
+import { updatePhoneNumber } from "../redux/reducers/user";
+import { changePhoneNumber } from "../services/UserService";
 
 const Phonenumber = () => {
   const user = useSelector((state) => state.userReducer.value.user);
 
   const navigate = useNavigate();
   const [phoneNumberFocus, setPhoneNumberFocus] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
   const [phoneNumberIsError, setPhoneNumberIsError] = useState(false);
+  const [loading, setLoading] = useState("");
+  const dispatch = useDispatch();
 
   const iconSize = 16;
 
@@ -19,10 +24,29 @@ const Phonenumber = () => {
   };
 
   const validatePhoneNumber = (phonenumber) => {
-    return phonenumber.trim().length >= 8;
+    return phonenumber.toString().length >= 8;
   };
 
-  const handleSave = () => {};
+  const handleSave = () => {
+    if (!validatePhoneNumber(phoneNumber)) {
+      setPhoneNumberIsError(true);
+      return;
+    }
+    setLoading("Changing phone number...");
+    changePhoneNumber(phoneNumber, success, failure);
+  };
+
+  const success = (data) => {
+    setLoading("");
+    dispatch(updatePhoneNumber(data.phoneNumber));
+    navigate(-1);
+  };
+
+  const failure = (message = "Something went wrong. Please try again later.") => {
+    setLoading("");
+    setPhoneNumber(user.phoneNumber);
+    console.log(message);
+  };
 
   return (
     <div className="user-tabs-container edit-container">
@@ -64,16 +88,19 @@ const Phonenumber = () => {
               )}
             </div>
             {phoneNumberIsError && (
-              <p className="error-text">Phone number is required.</p>
+              <p className="error-text">Phone number must be greater than 8 digits.</p>
             )}
           </div>
 
           <div className="edit-button-container">
             <button onClick={goBack}>Cancel</button>
-            <button>Save</button>
+            <button onClick={handleSave}>Save</button>
           </div>
         </div>
       </div>
+
+      <Loading loading={loading} text={loading} />
+
     </div>
   );
 };
