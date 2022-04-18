@@ -143,7 +143,7 @@ const SignUp = () => {
                     />
                   )}
                 </div>
-                {nameIsError && <p className="login-error-text">* Required</p>}
+                {nameIsError && <p className="error-text">* Required</p>}
               </div>
 
               <div className="login-input-container">
@@ -166,7 +166,7 @@ const SignUp = () => {
                   )}
                 </div>
                 {emailIsError && (
-                  <p className="login-error-text">Please enter a valid email</p>
+                  <p className="error-text">Please enter a valid email</p>
                 )}
               </div>
 
@@ -203,7 +203,7 @@ const SignUp = () => {
                   )}
                 </div>
                 {passwordIsError && (
-                  <p className="login-error-text">
+                  <p className="error-text">
                     Please enter a valid password. Passwords must have at least
                     eight characters and contain at least one of each of the
                     following: Uppercase letter, Lowercase letter, Number,
@@ -246,7 +246,7 @@ const SignUp = () => {
                   )}
                 </div>
                 {confirmPasswordIsError && (
-                  <p className="login-error-text">Passwords do not match</p>
+                  <p className="error-text">Passwords do not match</p>
                 )}
               </div>
 
@@ -270,7 +270,7 @@ const SignUp = () => {
                   )}
                 </div>
                 {phoneNumberIsError && (
-                  <p className="login-error-text">
+                  <p className="error-text">
                     Please enter a valid phone number
                   </p>
                 )}

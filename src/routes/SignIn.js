@@ -112,7 +112,7 @@ const SignIn = () => {
                   )}
                 </div>
                 {emailIsError && (
-                  <p className="login-error-text">Please enter a valid email</p>
+                  <p className="error-text">Please enter a valid email</p>
                 )}
               </div>
 

@@ -16,6 +16,9 @@ import Search from "./routes/Search";
 import User from "./routes/User";
 import Profile from "./routes/Profile";
 import Favorites from "./routes/Favorites";
+import Name from "./routes/Name";
+import Phonenumber from "./routes/Phonenumber";
+import Password from "./routes/Password";
 
 let persistor = persistStore(store);
 
@@ -34,6 +37,9 @@ ReactDOM.render(
             <Route path="user" element={<User />}>
               <Route path="profile" element={<Profile />} />
               <Route path="favorites" element={<Favorites />} />
+              <Route path="name" element={<Name />} />
+              <Route path="phonenumber" element={<Phonenumber />} />
+              <Route path="changepassword" element={<Password />} />
             </Route>
           </Routes>
         </BrowserRouter>

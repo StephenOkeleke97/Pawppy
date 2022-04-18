@@ -219,7 +219,7 @@ input[type="number"] {
 }
 
 /* LOGIN/ SIGNUP ERROR TEXT */
-.login-error-text {
+.error-text {
   font-size: 10px;
   margin-top: 2px;
   color: red;
