@@ -22,22 +22,24 @@ const WebSideNav = () => {
 
   return (
     <div className="user-nav">
-      <NavLink
-        to={"profile"}
-        style={({ isActive }) => (isActive ? activeStyle : inActiveStyle)}
-        className="sidebar-nav"
-      >
-        <AiOutlineUser />
-        <p>Profile</p>
-      </NavLink>
-      <NavLink
-        to={"favorites"}
-        style={({ isActive }) => (isActive ? activeStyle : inActiveStyle)}
-        className="sidebar-nav"
-      >
-        <BsSuitHeart />
-        <p>Favorites</p>
-      </NavLink>
+      <div className="user-nav-content">
+        <NavLink
+          to={"profile"}
+          style={({ isActive }) => (isActive ? activeStyle : inActiveStyle)}
+          className="sidebar-nav"
+        >
+          <AiOutlineUser />
+          <p>Profile</p>
+        </NavLink>
+        <NavLink
+          to={"favorites"}
+          style={({ isActive }) => (isActive ? activeStyle : inActiveStyle)}
+          className="sidebar-nav"
+        >
+          <BsSuitHeart />
+          <p>Favorites</p>
+        </NavLink>
+      </div>
     </div>
   );
 };

@@ -713,6 +713,35 @@ input[type="number"] {
   cursor: pointer;
 }
 
+.browse-recent {
+  padding: 30px;
+  padding-left: 50px;
+}
+
+.browse-recent > p {
+  color: #878787;
+  font-size: 14px;
+}
+
+.fav-animal-container {
+  display: flex;
+  width: auto;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.header-with-arrow {
+  display: flex;
+  align-items: center;
+}
+
+.header-with-arrow .header-arrow {
+  margin-left: 15px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+
 /* MEDIA QUERIES */
 @media (max-width: 1100px) {
   .browse-search-options-text {
@@ -806,6 +835,22 @@ input[type="number"] {
 
   .details-container {
     padding: 60px 20px;
+  }
+
+  .animal-container {
+    justify-content: center;
+  }
+
+  .animal-card {
+    width: 230px;
+  }
+
+  .animal-card-image-container {
+    height: 200px;
+  }
+
+  .fav-animal-container {
+    justify-content: center;
   }
 }
 

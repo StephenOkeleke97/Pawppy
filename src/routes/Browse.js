@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateGlobal } from "../redux/reducers/global";
 import Button from "../components/Button";
@@ -7,12 +7,25 @@ import QuickCategory from "../components/QuickCategory";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { createSearchParams, Outlet, useNavigate } from "react-router-dom";
 import Search from "./Search";
+import { getAnimals } from "../api/PetFinderService";
+import FavoritesComp from "../components/FavoritesComp";
 
 const Browse = () => {
   const dispatch = useDispatch();
   const quickCategoryContainer = useRef(null);
   const navigate = useNavigate();
   const category = getTrait();
+  const [recentAnimals, setRecentAnimals] = useState([]);
+
+  useEffect(() => {
+    // getAnimals({
+    //   limit: 5,
+    //   sort: "recent"
+    // }).then((response) => {
+    //   setRecentAnimals(response.data.data.animals);
+    //   console.log(response);
+    // })
+  }, []);
 
   useEffect(() => {
     dispatch(updateGlobal({ navBackground: "#fff", navText: "#6D6E71" }));
@@ -120,6 +133,17 @@ const Browse = () => {
             className="browse-quick-arrow-right"
             onClick={() => handleScroll("right")}
           />
+        </div>
+      </div>
+
+      <div className="browse-latest-pets">
+      <div className="browse-quick-category-header header-with-arrow">
+          <h2>Find the latest pets</h2>
+          <AiOutlineRight className="header-arrow" onClick={() => handleClickType("")}/>
+        </div>
+        <div className="browse-recent">
+          {recentAnimals.length > 0 ? <FavoritesComp animalsProp={recentAnimals} />
+          : <p>Nothing to show</p>}
         </div>
       </div>
     </div>

@@ -49,7 +49,7 @@ const Search = () => {
   const [statusOptions] = useState(getStatus());
   const [traitOptions] = useState(getTrait());
   const [organizationOptions, setOrganizationOptions] = useState([]);
-  const [animals, setAnimals] = useState(null);
+  const [animals, setAnimals] = useState({});
   const [typeLoaded, setTypeLoaded] = useState(false);
   const [pageShowing, setPageShowing] = useState(1);
 

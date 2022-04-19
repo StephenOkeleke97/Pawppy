@@ -31,7 +31,6 @@ const Details = () => {
     <div className="container details-container">
            <div className="details-back">
         <BiArrowBack className="back-arrow" size={25} onClick={goBack} />
-        <h1>Search</h1>
       </div>
       <div className="carousel-container">
         <Carousel

@@ -176,3 +176,18 @@ export function deleteFromFavorite(animalId, success, failure) {
       console.log(error);
     });
 }
+
+export function getFavorites(success, failure) {
+  const api = host + "api/v1/favorites";
+  axios
+    .get(api, {
+      withCredentials: true,
+      timeout: timeout,
+    })
+    .then((response) => {
+      success(response.data.favorites);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
