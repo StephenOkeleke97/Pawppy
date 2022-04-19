@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateGlobal } from "../redux/reducers/global";
 import { setUser } from "../redux/reducers/user";
 import {
@@ -42,6 +42,7 @@ const SignUp = () => {
   const [feedBackOpen, setFeedBackOpen] = useState(false);
   const [feedBackMessage, setFeedBackMessage] = useState("");
   const [feedBackSeverity, setFeedBackSeverity] = useState("");
+  const authenticated = useSelector((state) => state.authReducer.value);
 
   const iconSize = 14;
   const validInputIconSize = 13;
@@ -51,8 +52,6 @@ const SignUp = () => {
   }, []);
 
   useEffect(() => {
-    const authenticated = document.cookie.indexOf("auth=") !== -1;
-
     if (authenticated) navigate("/");
   });
 
@@ -88,7 +87,6 @@ const SignUp = () => {
   const signUpSuccess = (data) => {
     setLoading("");
     dispatch(setUser(data.user));
-    navigate("/");
     window.location.reload();
   };
 

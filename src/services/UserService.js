@@ -25,6 +25,9 @@ export function registerUser(
       timeout: timeout,
     })
     .then((response) => {
+      const date = Date.now();
+      const expiresIn = Number(response.data.expiresIn);
+      window.localStorage.setItem("exp", date + expiresIn);
       success(response.data);
     })
     .catch((error) => {
@@ -45,12 +48,15 @@ export function login(email, password, success, failure) {
       timeout: timeout,
     })
     .then((response) => {
-      console.log(response);
+      const date = Date.now();
+      const expiresIn = Number(response.data.expiresIn);
+      window.localStorage.setItem("exp", date + expiresIn);
       success(response.data);
     })
     .catch((error) => {
       if (error.response) failure(error.response.data);
       else failure();
+      console.log(error);
     });
 }
 

@@ -4,7 +4,13 @@ export const user = createSlice({
   name: "user",
   initialState: {
     value: {
-      user: {},
+      user: {
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        email: "",
+        favorites: [],
+      },
     },
   },
   reducers: {

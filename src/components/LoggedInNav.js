@@ -43,6 +43,7 @@ const LoggedInNav = () => {
     dispatch({
       type: "LOGOUT",
     });
+    window.localStorage.removeItem("exp");
     window.location.reload();
   };
 

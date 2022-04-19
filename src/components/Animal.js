@@ -17,15 +17,14 @@ const Animal = ({ animal }) => {
   const navigation = useNavigate();
   const imageSrc = animal.photos;
   const [image, setImage] = useState("");
-  const authenticated = document.cookie.indexOf("auth=") !== -1;
+  const authenticated = useSelector((state) => state.authReducer.value);
   const [feedBackOpen, setFeedBackOpen] = useState(false);
   const [feedBackMessage, setFeedBackMessage] = useState("");
   const [feedBackSeverity, setFeedBackSeverity] = useState("");
 
   const dispatch = useDispatch();
-  const favorites = useSelector(
-    (state) => state.userReducer.value.user.favorites
-  );
+  const user = useSelector((state) => state.userReducer.value.user);
+  const favorites = user ? user.favorites : [];
   const isFavorite = favorites
     ? favorites.some((id) => id === animal.id)
     : false;

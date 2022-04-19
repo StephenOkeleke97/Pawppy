@@ -19,6 +19,7 @@ import Name from "./routes/Name";
 import Phonenumber from "./routes/Phonenumber";
 import Password from "./routes/Password";
 import Details from "./routes/Details";
+import Auth from "./auth/Auth";
 
 let persistor = persistStore(store);
 
@@ -27,6 +28,7 @@ ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
+          <Auth />
           <Navigation />
           <Routes>
             <Route path="/" element={<App />} />

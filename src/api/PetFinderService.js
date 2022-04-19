@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const timeout = "60000";
-const host = "http://localhost:5100/";
+const host = "https://pawppybackend.herokuapp.com/";
 const petTypes = host + "petfinder/types";
 const petBreed = host + "petfinder/breed";
 const organizations = host + "petfinder/organizations";

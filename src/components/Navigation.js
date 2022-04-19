@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import "../styles/nav.css";
 import WebNav from "./WebNav";
 import MobileNav from "./MobileNav";
+import { useSelector } from "react-redux";
 
 const Navigation = () => {
-  const authenticated = document.cookie.indexOf("auth=") !== -1;
+  const authenticated = useSelector((state) => state.authReducer.value);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
