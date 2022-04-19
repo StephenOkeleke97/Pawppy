@@ -52,6 +52,7 @@ const Search = () => {
   const [animals, setAnimals] = useState({});
   const [typeLoaded, setTypeLoaded] = useState(false);
   const [pageShowing, setPageShowing] = useState(1);
+  const [sort, setSort] = useState();
 
   const [filterList, setFilterList] = useState([]);
   const storage = window.localStorage;
@@ -92,6 +93,8 @@ const Search = () => {
     if (keyMap["declawed"]) loadTrait("declawed", filter);
     if (keyMap["special_needs"]) loadTrait("special_needs", filter);
     if (keyMap["house_trained"]) loadTrait("house_trained", filter);
+    if (keyMap["page"]) setPageShowing(keyMap.page);
+    if (keyMap.sort) setSort(keyMap.sort);
 
     setFilterList(filter);
   };
@@ -124,6 +127,7 @@ const Search = () => {
       }
     });
   };
+  
 
   /**
    * Get animal types on component mount
@@ -270,7 +274,7 @@ const Search = () => {
     return temp;
   };
 
-  const handleSearchFilter = (isMount = false, page = 1) => {
+  const handleSearchFilter = (isMount = false, page = pageShowing) => {
     const urlSearch = new URLSearchParams();
     const params = {
       type: type,
@@ -290,6 +294,7 @@ const Search = () => {
       special_needs: getTraitActive("Special Needs", traitOptions),
       page: page,
       limit: 40,
+      sort: sort,
     };
     if (params.type) urlSearch.append("type", params.type);
     if (params.size) urlSearch.append("size", params.size);
@@ -310,8 +315,9 @@ const Search = () => {
     if (params.declawed) urlSearch.append("declawed", params.declawed);
     if (params["special_needs"])
       urlSearch.append("special_needs", params["special_needs"]);
-
-    console.log(page);
+    urlSearch.append("page", params.page);
+    if (params.sort) urlSearch.append("sort", params.sort);
+    console.log(params.sort);
     getAnimals(params)
       .then((result) => {
         console.log(result.data);

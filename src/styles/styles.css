@@ -520,7 +520,7 @@ input[type="number"] {
   padding: 20px 0;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 
 .animal-card {
@@ -531,6 +531,7 @@ input[type="number"] {
   box-shadow: 1px 1px 5px rgb(143, 143, 143);
   cursor: pointer;
   position: relative;
+  margin-right: 25px;
 }
 
 .animal-card-image-container {
@@ -727,7 +728,7 @@ input[type="number"] {
   display: flex;
   width: auto;
   flex-wrap: wrap;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 
 .header-with-arrow {
@@ -739,6 +740,19 @@ input[type="number"] {
   margin-left: 15px;
   font-size: 22px;
   cursor: pointer;
+}
+
+.header-with-text p {
+  font-size: 12px;
+  margin-top: 5px;
+  color: #1771f1;
+  cursor: pointer;
+}
+
+.not-loaded {
+  padding: 80px;
+  font-size: 14px;
+  color: #6d6e71;
 }
 
 

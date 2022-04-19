@@ -9,22 +9,37 @@ import { createSearchParams, Outlet, useNavigate } from "react-router-dom";
 import Search from "./Search";
 import { getAnimals } from "../api/PetFinderService";
 import FavoritesComp from "../components/FavoritesComp";
+import { getRecents } from "../services/UserService";
 
 const Browse = () => {
+  const recentlyShowingCollapsedNum = 4;
+
   const dispatch = useDispatch();
   const quickCategoryContainer = useRef(null);
   const navigate = useNavigate();
   const category = getTrait();
   const [recentAnimals, setRecentAnimals] = useState([]);
+  const [recentlyViewed, setRecentlyViewed] = useState([]);
+  const [recentNum, setRecentNum] = useState(recentlyShowingCollapsedNum);
+
+  const authenticated = document.cookie.indexOf("auth=") !== -1;
 
   useEffect(() => {
-    // getAnimals({
-    //   limit: 5,
-    //   sort: "recent"
-    // }).then((response) => {
-    //   setRecentAnimals(response.data.data.animals);
-    //   console.log(response);
-    // })
+    getAnimals({
+      limit: 5,
+      sort: "recent"
+    }).then((response) => {
+      setRecentAnimals(response.data.data.animals);
+      console.log(response);
+    })
+  }, []);
+
+  useEffect(() => {
+    if (authenticated)
+      getRecents((data) => {
+        console.log(data);
+        setRecentlyViewed(data.recent);
+      });
   }, []);
 
   useEffect(() => {
@@ -36,24 +51,34 @@ const Browse = () => {
       navigate({
         pathname: "/search",
         search: createSearchParams({
-          type: species
-        }).toString()
+          type: species,
+        }).toString(),
       });
     } else {
       navigate({
         pathname: "/search",
       });
     }
-  }
+  };
 
   const handleClickCategory = (category) => {
     const searchParams = {};
     searchParams[category] = true;
     navigate({
       pathname: "/search",
-      search: createSearchParams(searchParams).toString()
-    })
-  }
+      search: createSearchParams(searchParams).toString(),
+    });
+  };
+
+  const handleGoToRecent = () => {
+    const searchParams = {};
+    searchParams["sort"] = "recent";
+    navigate({
+      pathname: "/search",
+      search: createSearchParams(searchParams).toString(),
+    });
+  };
+
 
   const handleScroll = (direction) => {
     const operator = {
@@ -77,10 +102,17 @@ const Browse = () => {
     }, 1);
   };
 
+  const handleShowAllRecents = () => {
+    console.log(recentlyViewed.length);
+    console.log(recentNum);
+    if (recentlyViewed.length > recentNum) setRecentNum(recentlyViewed.length);
+    else setRecentNum(recentlyShowingCollapsedNum);
+  };
+
   return (
     <div className="browse-container container">
       <div className="browse-banner">
-        <div className="browse-banner-overlay"/>
+        <div className="browse-banner-overlay" />
         <h1>Adopt a dog or cat that fits your lifestyle</h1>
       </div>
 
@@ -93,18 +125,27 @@ const Browse = () => {
           </p>
 
           <div className="browse-search-options-buttons">
-            <Button className="browse-search-buttons" text={"View All"} 
-            onClick={() => {
-              handleClickType("");
-            }}/>
-            <Button className="browse-search-buttons" text={"View Dogs"} 
-             onClick={() => {
-              handleClickType("Dog");
-            }}/>
-            <Button className="browse-search-buttons" text={"View Cats"} 
-             onClick={() => {
-              handleClickType("Cat");
-            }}/>
+            <Button
+              className="browse-search-buttons"
+              text={"View All"}
+              onClick={() => {
+                handleClickType("");
+              }}
+            />
+            <Button
+              className="browse-search-buttons"
+              text={"View Dogs"}
+              onClick={() => {
+                handleClickType("Dog");
+              }}
+            />
+            <Button
+              className="browse-search-buttons"
+              text={"View Cats"}
+              onClick={() => {
+                handleClickType("Cat");
+              }}
+            />
           </div>
         </div>
       </div>
@@ -137,15 +178,41 @@ const Browse = () => {
       </div>
 
       <div className="browse-latest-pets">
-      <div className="browse-quick-category-header header-with-arrow">
+        <div className="browse-quick-category-header header-with-arrow">
           <h2>Find the latest pets</h2>
-          <AiOutlineRight className="header-arrow" onClick={() => handleClickType("")}/>
+          <AiOutlineRight
+            className="header-arrow"
+            onClick={handleGoToRecent}
+          />
         </div>
         <div className="browse-recent">
-          {recentAnimals.length > 0 ? <FavoritesComp animalsProp={recentAnimals} />
-          : <p>Nothing to show</p>}
+          {recentAnimals.length > 0 ? (
+            <FavoritesComp animalsProp={recentAnimals} />
+          ) : (
+            <p>Nothing to show</p>
+          )}
         </div>
       </div>
+
+      {authenticated && (
+        <div className="browse-latest-pets">
+          <div className="browse-quick-category-header header-with-text">
+            <h2>Recently Viewed</h2>
+            {recentNum < recentlyViewed.length ? (
+              <p onClick={handleShowAllRecents}>Show All</p>
+            ) : (
+              <p onClick={handleShowAllRecents}>Collapse</p>
+            )}
+          </div>
+          <div className="browse-recent">
+            {recentlyViewed.length > 0 ? (
+              <FavoritesComp animalsProp={recentlyViewed} showing={recentNum} />
+            ) : (
+              <p>Nothing to show</p>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

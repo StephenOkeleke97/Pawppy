@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -35,7 +35,7 @@ const Animal = ({ animal }) => {
   }, []);
 
   const goToDetails = () => {
-    navigation("/details", {
+    navigation(`/details/${animal.id}`, {
       state: {
         animal: animal,
       },

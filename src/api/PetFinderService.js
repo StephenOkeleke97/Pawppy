@@ -16,6 +16,14 @@ export async function getAnimals(params) {
   return result;
 }
 
+export async function getAnimal(id) {
+  const result = await axios.get(animals + `/${id}`, {
+    timeout: timeout
+  });
+
+  return result;
+}
+
 export async function getTypes() {
   const result = await axios.get(petTypes, {
     timeout: timeout,

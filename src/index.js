@@ -33,7 +33,7 @@ ReactDOM.render(
             <Route path="/" element={<App />} />
             <Route path="/home" element={<App />} />
             <Route path="search" element={<Search />} />
-            <Route path="details" element={<Details />} />
+            <Route path={`details/:id`} element={<Details />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="signin" element={<SignIn />} />
             <Route path="user" element={<User />}>

@@ -153,6 +153,24 @@ export function addToFavorite(animal, success, failure) {
     });
 }
 
+export function addToRecents(animal) {
+  const api = host + "api/v1/recentviews";
+  const body = {
+    animal: animal,
+  };
+  axios
+    .post(api, body, {
+      withCredentials: true,
+      timeout: timeout,
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
 export function deleteFromFavorite(animalId, success, failure) {
   const api = host + "api/v1/favorites";
   const params = {
@@ -177,7 +195,7 @@ export function deleteFromFavorite(animalId, success, failure) {
     });
 }
 
-export function getFavorites(success, failure) {
+export function getFavorites(success) {
   const api = host + "api/v1/favorites";
   axios
     .get(api, {
@@ -186,6 +204,21 @@ export function getFavorites(success, failure) {
     })
     .then((response) => {
       success(response.data.favorites);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+export function getRecents(success) {
+  const api = host + "api/v1/recentviews";
+  axios
+    .get(api, {
+      withCredentials: true,
+      timeout: timeout,
+    })
+    .then((response) => {
+      success(response.data);
     })
     .catch((error) => {
       console.log(error);
