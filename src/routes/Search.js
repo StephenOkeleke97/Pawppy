@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  createSearchParams,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { getTrait } from "../filters/categories";
 import FilterListItem from "../components/FilterListItem";
 import FilterOptions from "../components/FilterOptions";
@@ -34,8 +29,6 @@ const Search = () => {
   /**
    * Filters
    */
-  const [distance, setDistance] = useState("");
-  const [location, setLocation] = useState("");
 
   const [type, setType] = useState("");
   const [typeOptions, setTypeOptions] = useState([]);
@@ -57,12 +50,8 @@ const Search = () => {
   const [filterList, setFilterList] = useState([]);
   const storage = window.localStorage;
   const navigation = useNavigate();
+  const [loadStatus, setLoadStatus] = useState("Loading...");
 
-  // useEffect(() => {
-  //   if (filterList) setFilterChanged(true);
-  // }, [filterList]);
-  /**
-   */
   useEffect(() => {
     const keys = Array.from(searchParams.keys());
     if (keys.length > 0) {
@@ -127,7 +116,6 @@ const Search = () => {
       }
     });
   };
-  
 
   /**
    * Get animal types on component mount
@@ -158,7 +146,6 @@ const Search = () => {
       const types = transformType(petTypes.types);
       setTypeOptions(types);
       setTypeLoaded(true);
-
     }
   }, []);
 
@@ -224,6 +211,7 @@ const Search = () => {
    * @param {Object} optionItem item to be removed
    */
   const removeFromFilterList = (optionItem) => {
+    setPageShowing(1);
     let temp;
     if (optionItem.isColor) setColor("");
     if (optionItem.isType)
@@ -242,6 +230,7 @@ const Search = () => {
    * @param {Object} remove previously selected category to renove
    */
   const updateFilterList = (add, remove) => {
+    setPageShowing(1);
     let temp = filterList;
     if (remove) {
       if (remove.isType) temp = handleRemoveTypeFromFilterList(remove, false);
@@ -317,11 +306,10 @@ const Search = () => {
       urlSearch.append("special_needs", params["special_needs"]);
     urlSearch.append("page", params.page);
     if (params.sort) urlSearch.append("sort", params.sort);
-    console.log(params.sort);
     getAnimals(params)
       .then((result) => {
-        console.log(result.data);
-        // setFilterChanged(false);
+        if (result.data.data.animals.length <= 0)
+          setLoadStatus("No search matches this criteria.");
         setAnimals(result.data.data);
         if (!isMount) {
           navigation({
@@ -331,44 +319,40 @@ const Search = () => {
         }
       })
       .catch((error) => {
+        if (
+          error.response &&
+          (error.response.status === 404 || error.response.status === 400)
+        )
+          setLoadStatus("Not Found. Please search again.");
+        else setLoadStatus("Failed to load animals");
         console.log(error);
       });
   };
 
   const setPage = (page) => {
-    console.log(page);
-    // setFilterChanged(true);
     handleSearchFilter(false, page);
   };
 
   const clearFilter = () => {
-    filterList.forEach(option => {
+    filterList.forEach((option) => {
       option.active = false;
     });
     setFilterList([]);
     setType("");
     setColor("");
-  }
+  };
 
   return (
     <div className="search-container container">
       <div className="search-header">
         <div className="filter-summary">
           <p>View All Adoptable {type ? type : "Pet"}s</p>
-          <div className="location-specification">
-            {location ? (
-              <p>Within 100 miles of None</p>
-            ) : (
-              <p>No location set</p>
-            )}
-            <p className="location-edit-link">Edit</p>
-          </div>
         </div>
 
         <div className="filter-container">
           <div className="filter-header">
-          <h1>Filters</h1>
-          <button onClick={clearFilter}>Clear</button>
+            <h1>Filters</h1>
+            <button onClick={clearFilter}>Clear</button>
           </div>
           <div className="filter-list">
             {filterList.length <= 0 ? (
@@ -474,7 +458,11 @@ const Search = () => {
           />
         </div>
       </div>
-      <Animals animalsObject={animals} changePage={setPage} />
+      <Animals
+        animalsObject={animals}
+        changePage={setPage}
+        statusText={loadStatus}
+      />
     </div>
   );
 };

@@ -10,7 +10,7 @@ const animals = host + "petfinder/animals";
 export async function getAnimals(params) {
   const result = await axios.get(animals, {
     params: params,
-    timeout: timeout
+    timeout: timeout,
   });
 
   return result;
@@ -18,7 +18,7 @@ export async function getAnimals(params) {
 
 export async function getAnimal(id) {
   const result = await axios.get(animals + `/${id}`, {
-    timeout: timeout
+    timeout: timeout,
   });
 
   return result;

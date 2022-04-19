@@ -5,8 +5,7 @@ import Button from "../components/Button";
 import { getTrait } from "../filters/categories";
 import QuickCategory from "../components/QuickCategory";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { createSearchParams, Outlet, useNavigate } from "react-router-dom";
-import Search from "./Search";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import { getAnimals } from "../api/PetFinderService";
 import FavoritesComp from "../components/FavoritesComp";
 import { getRecents } from "../services/UserService";
@@ -27,17 +26,15 @@ const Browse = () => {
   useEffect(() => {
     getAnimals({
       limit: 5,
-      sort: "recent"
+      sort: "recent",
     }).then((response) => {
       setRecentAnimals(response.data.data.animals);
-      console.log(response);
-    })
+    });
   }, []);
 
   useEffect(() => {
     if (authenticated)
       getRecents((data) => {
-        console.log(data);
         setRecentlyViewed(data.recent);
       });
   }, []);
@@ -79,7 +76,6 @@ const Browse = () => {
     });
   };
 
-
   const handleScroll = (direction) => {
     const operator = {
       right: function (x, y) {
@@ -103,8 +99,6 @@ const Browse = () => {
   };
 
   const handleShowAllRecents = () => {
-    console.log(recentlyViewed.length);
-    console.log(recentNum);
     if (recentlyViewed.length > recentNum) setRecentNum(recentlyViewed.length);
     else setRecentNum(recentlyShowingCollapsedNum);
   };
@@ -180,10 +174,7 @@ const Browse = () => {
       <div className="browse-latest-pets">
         <div className="browse-quick-category-header header-with-arrow">
           <h2>Find the latest pets</h2>
-          <AiOutlineRight
-            className="header-arrow"
-            onClick={handleGoToRecent}
-          />
+          <AiOutlineRight className="header-arrow" onClick={handleGoToRecent} />
         </div>
         <div className="browse-recent">
           {recentAnimals.length > 0 ? (

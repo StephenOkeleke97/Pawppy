@@ -71,17 +71,19 @@ const MobileNav = ({ textColor = "#000", authenticated }) => {
                 Search
               </NavLink>
             </li>
-            {!authenticated && <li>
-              <NavLink
-                to={"signup"}
-                style={({ isActive }) =>
-                  isActive ? activeStyle : inActiveStyle
-                }
-                onClick={closeMenu}
-              >
-                Sign Up
-              </NavLink>
-            </li>}
+            {!authenticated && (
+              <li>
+                <NavLink
+                  to={"register"}
+                  style={({ isActive }) =>
+                    isActive ? activeStyle : inActiveStyle
+                  }
+                  onClick={closeMenu}
+                >
+                  Register
+                </NavLink>
+              </li>
+            )}
           </ul>
         </div>
       </div>

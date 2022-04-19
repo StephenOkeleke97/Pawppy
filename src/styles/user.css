@@ -6,7 +6,7 @@
 
 .user-nav {
   min-height: calc(100vh - 60px);
-  width: 20%;
+  width: 25%;
   background-color: #06041d;
   display: flex;
   flex-direction: column;
@@ -337,7 +337,7 @@
 /* FAVORITES */
 .favorites-container {
   padding: 40px;
-  flex-grow: 1;
+  flex: 0 0 75%;
 }
 
 .favorites-content {
@@ -364,15 +364,15 @@
   margin-right: 30px;
 }
 
-.animal-text-skeleton-container{
+.animal-text-skeleton-container {
   padding: 10px 0;
   display: flex;
   justify-content: center;
 }
 
 .animal-text-skeleton {
- width: 30%;
- margin-right: 10px;
+  width: 30%;
+  margin-right: 10px;
 }
 
 .animal-loading {
@@ -381,17 +381,7 @@
   width: 220px;
 }
 
-@media (max-width: 1200px) {
-  .user-nav {
-    width: 400px;
-  }
-}
-
 @media (max-width: 1000px) {
-  .user-nav {
-    width: 500px;
-  }
-
   .profile-pic {
     width: 70px;
     height: 70px;

@@ -6,7 +6,7 @@ const Loading = ({ text, loading }) => {
     position: "fixed",
     width: "150px",
     height: "150px",
-    backgroundColor:" rgba(145, 143, 143, 0.356)",
+    backgroundColor: " rgba(145, 143, 143, 0.356)",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",

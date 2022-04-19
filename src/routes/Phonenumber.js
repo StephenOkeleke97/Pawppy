@@ -6,6 +6,14 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import { updatePhoneNumber } from "../redux/reducers/user";
 import { changePhoneNumber } from "../services/UserService";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Phonenumber = () => {
   const user = useSelector((state) => state.userReducer.value.user);
@@ -16,6 +24,10 @@ const Phonenumber = () => {
   const [phoneNumberIsError, setPhoneNumberIsError] = useState(false);
   const [loading, setLoading] = useState("");
   const dispatch = useDispatch();
+
+  const [feedBackOpen, setFeedBackOpen] = useState(false);
+  const [feedBackMessage, setFeedBackMessage] = useState("");
+  const [feedBackSeverity, setFeedBackSeverity] = useState("");
 
   const iconSize = 16;
 
@@ -42,11 +54,32 @@ const Phonenumber = () => {
     navigate(-1);
   };
 
-  const failure = (message = "Something went wrong. Please try again later.") => {
+  const failure = (
+    message = "Something went wrong. Please try again later."
+  ) => {
     setLoading("");
     setPhoneNumber(user.phoneNumber);
-    console.log(message);
+    setFeedBackMessage(message);
+    setFeedBackSeverity("error");
+    setFeedBackOpen(true);
   };
+
+  const closeFeedback = () => {
+    setFeedBackOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={closeFeedback}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <div className="user-tabs-container edit-container">
@@ -88,7 +121,9 @@ const Phonenumber = () => {
               )}
             </div>
             {phoneNumberIsError && (
-              <p className="error-text">Phone number must be greater than 8 digits.</p>
+              <p className="error-text">
+                Phone number must be greater than 8 digits.
+              </p>
             )}
           </div>
 
@@ -100,7 +135,20 @@ const Phonenumber = () => {
       </div>
 
       <Loading loading={loading} text={loading} />
-
+      <Snackbar
+        open={feedBackOpen}
+        autoHideDuration={3000}
+        onClose={closeFeedback}
+        action={action}
+      >
+        <Alert
+          onClose={closeFeedback}
+          severity={feedBackSeverity}
+          sx={{ width: "100%" }}
+        >
+          {feedBackMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

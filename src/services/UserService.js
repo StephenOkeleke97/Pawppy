@@ -1,5 +1,5 @@
 import axios from "axios";
-const host = "http://localhost:5100/";
+const host = "https://pawppybackend.herokuapp.com/";
 const timeout = 10000;
 
 export function registerUser(

@@ -2,9 +2,22 @@ import React, { useEffect, useState } from "react";
 import Animal from "./Animal";
 import Pagination from "../pagination/Pagination";
 
-const Animals = ({ animalsObject, changePage }) => {
+const Animals = ({ animalsObject, changePage, statusText }) => {
   const [animals, setAnimals] = useState([]);
   const [pagination, setPagination] = useState();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowWidth(window.innerWidth);
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [windowWidth]);
 
   useEffect(() => {
     if (animalsObject) {
@@ -19,6 +32,7 @@ const Animals = ({ animalsObject, changePage }) => {
           numOfPages={pagination.total_pages}
           activePage={pagination.current_page}
           changePage={changePage}
+          numberOfPagesBeforeEllipses={windowWidth > 700 ? 5 : 2}
         >
           <div className="animal-container">
             {animals.map((animal) => {
@@ -27,7 +41,9 @@ const Animals = ({ animalsObject, changePage }) => {
           </div>
         </Pagination>
       ) : (
-        <p>Loading...</p>
+        <div className="animals-not-loaded">
+          <p>{statusText}</p>
+        </div>
       )}
     </>
   );

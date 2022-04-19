@@ -12,6 +12,14 @@ import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../services/UserService";
 import Loading from "../components/Loading";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -31,6 +39,9 @@ const SignUp = () => {
   const [phoneNumberIsError, setPhoneNumberIsError] = useState(false);
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
   const [loading, setLoading] = useState("");
+  const [feedBackOpen, setFeedBackOpen] = useState(false);
+  const [feedBackMessage, setFeedBackMessage] = useState("");
+  const [feedBackSeverity, setFeedBackSeverity] = useState("");
 
   const iconSize = 14;
   const validInputIconSize = 13;
@@ -87,12 +98,14 @@ const SignUp = () => {
     }
   ) => {
     setLoading("");
-    console.log(data);
+    setFeedBackMessage(data.message);
+    setFeedBackSeverity("error");
+    setFeedBackOpen(true);
   };
 
   const handleSignUp = () => {
     if (validateInput()) {
-      setLoading("Signing In...");
+      setLoading("Creating Account...");
       registerUser(
         email,
         password,
@@ -106,7 +119,7 @@ const SignUp = () => {
   };
 
   const goToSignIn = () => {
-    navigate("/signin");
+    navigate("/login");
   };
 
   const validateInput = () => {
@@ -143,6 +156,23 @@ const SignUp = () => {
 
     return isValid;
   };
+
+  const closeFeedback = () => {
+    setFeedBackOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={closeFeedback}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <div className="login-container container">
@@ -346,7 +376,7 @@ const SignUp = () => {
             <div className="sign-in-prompt">
               <p>Already have an account? &nbsp;</p>
               <span className="sign-in-button" onClick={goToSignIn}>
-                <p>Sign In</p>
+                <p>Login</p>
                 <AiOutlineArrowRight size={iconSize} />
               </span>
             </div>
@@ -354,6 +384,21 @@ const SignUp = () => {
         </div>
       </div>
       <Loading loading={loading} text={loading} />
+
+      <Snackbar
+        open={feedBackOpen}
+        autoHideDuration={3000}
+        onClose={closeFeedback}
+        action={action}
+      >
+        <Alert
+          onClose={closeFeedback}
+          severity={feedBackSeverity}
+          sx={{ width: "100%" }}
+        >
+          {feedBackMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

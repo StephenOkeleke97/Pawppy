@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { getFavorites } from "../services/UserService";
 import Skeleton from "@mui/material/Skeleton";
-import Animals from "../components/Animals";
 import FavoritesComp from "../components/FavoritesComp";
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const skeletons = [1, 2, 3];
-console.log(favorites);
   useEffect(() => {
     getFavorites((favorites) => {
-      console.log(favorites);
       setFavorites(favorites);
       setLoading(false);
     });
@@ -54,7 +51,7 @@ console.log(favorites);
           {favorites.length <= 0 ? (
             <p className="favorites-empty">You do not have any favorites.</p>
           ) : (
-            <FavoritesComp animalsProp={favorites}/>
+            <FavoritesComp animalsProp={favorites} />
           )}
         </div>
       )}

@@ -1,10 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Carousel from "react-material-ui-carousel";
-import { BsSuitHeart } from "react-icons/bs";
+import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
 import { BiArrowBack } from "react-icons/bi";
-import { addToRecents } from "../services/UserService";
-import { getAnimal, getAnimals } from "../api/PetFinderService";
+import {
+  addToFavorite,
+  addToRecents,
+  deleteFromFavorite,
+} from "../services/UserService";
+import { getAnimal } from "../api/PetFinderService";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import MuiAlert from "@mui/material/Alert";
+import { useDispatch, useSelector } from "react-redux";
+import { updateFavorites } from "../redux/reducers/user";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Details = () => {
   const location = useLocation();
@@ -12,6 +26,20 @@ const Details = () => {
   const [animal, setAnimal] = useState({});
   const [statusText, setStatusText] = useState("Loading...");
   const { id } = useParams();
+
+  const authenticated = document.cookie.indexOf("auth=") !== -1;
+  const [feedBackOpen, setFeedBackOpen] = useState(false);
+  const [feedBackMessage, setFeedBackMessage] = useState("");
+  const [feedBackSeverity, setFeedBackSeverity] = useState("");
+
+  const dispatch = useDispatch();
+  const favorites = useSelector(
+    (state) => state.userReducer.value.user.favorites
+  );
+  const isFavorite = favorites
+    ? favorites.some((id) => id === animal.id)
+    : false;
+
   const goodWith = [];
 
   if (animal.environment && animal.environment.children) {
@@ -24,6 +52,11 @@ const Details = () => {
   if (animal.environment && animal.environment.cats) {
     goodWith.push("Cats");
   }
+
+  useEffect(() => {
+    console.log(animal);
+    if (animal.id) addToRecents(animal);
+  }, [animal]);
 
   useEffect(() => {
     let isMounted = true;
@@ -52,9 +85,56 @@ const Details = () => {
     navigation(-1);
   };
 
-  useEffect(() => {
-    if (animal) addToRecents(animal);
-  }, []);
+  const handleFavorite = () => {
+    if (!authenticated) {
+      setFeedBackSeverity("info");
+      setFeedBackMessage("You must be logged in to do this");
+      setFeedBackOpen(true);
+      return;
+    }
+
+    if (isFavorite) {
+      deleteFromFavorite(animal.id, success, failure);
+    } else {
+      addToFavorite(animal, success, failure);
+    }
+  };
+
+  const success = (data, message) => {
+    dispatch(
+      updateFavorites({
+        favorites: data,
+      })
+    );
+    setFeedBackSeverity("success");
+    setFeedBackMessage(message);
+    setFeedBackOpen(true);
+  };
+
+  const failure = (
+    message = "Something went wrong. Please try again later."
+  ) => {
+    setFeedBackSeverity("error");
+    setFeedBackMessage(message);
+    setFeedBackOpen(true);
+  };
+
+  const closeFeedback = () => {
+    setFeedBackOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={closeFeedback}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <>
@@ -83,7 +163,10 @@ const Details = () => {
 
           <div className="details-content-container">
             <div className="details-content">
-              <h1>{animal.name}</h1>
+              <div className="details-header">
+                <h1>{animal.name}</h1>
+                {isFavorite && <BsSuitHeartFill className="heart" />}
+              </div>
 
               <div className="animal-breed">
                 {animal.secondary ? (
@@ -195,7 +278,7 @@ const Details = () => {
             <div className="details-contact">
               <h2>Contact</h2>
               <div className="details-contact-button">
-                <button>
+                <button onClick={handleFavorite}>
                   <BsSuitHeart />
                   <p>Favorite</p>
                 </button>
@@ -245,6 +328,21 @@ const Details = () => {
               </div>
             </div>
           </div>
+
+          <Snackbar
+            open={feedBackOpen}
+            autoHideDuration={3000}
+            onClose={closeFeedback}
+            action={action}
+          >
+            <Alert
+              onClose={closeFeedback}
+              severity={feedBackSeverity}
+              sx={{ width: "100%" }}
+            >
+              {feedBackMessage}
+            </Alert>
+          </Snackbar>
         </div>
       ) : (
         <div className="container not-loaded">

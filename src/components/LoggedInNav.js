@@ -36,7 +36,6 @@ const LoggedInNav = () => {
     }
   ) => {
     setLoading("");
-    console.log(data);
   };
 
   const success = () => {

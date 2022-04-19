@@ -1,18 +1,20 @@
-import React from 'react'
-import { AiOutlineClose } from 'react-icons/ai'
+import React from "react";
+import { AiOutlineClose } from "react-icons/ai";
 
 const FilterListItem = ({ optionItem, removeFromFilterList }) => {
   return (
-    <div className='filter-list-item-container'>
-        <div>
-            <p>{optionItem.name}</p>
-        </div>
-        <AiOutlineClose className='filter-list-close'
+    <div className="filter-list-item-container">
+      <div>
+        <p>{optionItem.name}</p>
+      </div>
+      <AiOutlineClose
+        className="filter-list-close"
         onClick={() => {
-            removeFromFilterList(optionItem);
-        }}/>
+          removeFromFilterList(optionItem);
+        }}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default FilterListItem
+export default FilterListItem;

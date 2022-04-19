@@ -5,14 +5,19 @@ import {
   AiFillEyeInvisible,
 } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import { changePassword } from "../services/UserService";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Name = () => {
-  const user = useSelector((state) => state.userReducer.value.user);
-
   const navigate = useNavigate();
   const [oldPassFocus, setOldPassFocus] = useState(false);
   const [newPassFocus, setNewPassFocus] = useState(false);
@@ -25,6 +30,10 @@ const Name = () => {
   const [confirmPassIsError, setConfirmPassIsError] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState("");
+
+  const [feedBackOpen, setFeedBackOpen] = useState(false);
+  const [feedBackMessage, setFeedBackMessage] = useState("");
+  const [feedBackSeverity, setFeedBackSeverity] = useState("");
 
   const iconSize = 16;
 
@@ -48,7 +57,11 @@ const Name = () => {
   };
 
   const handleSave = () => {
-    if (!oldPassword || !validatePassword(newPassword) || (newPassword !== confirmPassword)) {
+    if (
+      !oldPassword ||
+      !validatePassword(newPassword) ||
+      newPassword !== confirmPassword
+    ) {
       setOldPassIsError(!oldPassword);
       setNewPassIsError(!validatePassword(newPassword));
       setConfirmPassIsError(newPassword !== confirmPassword);
@@ -64,10 +77,31 @@ const Name = () => {
     navigate(-1);
   };
 
-  const failure = (message = "Something went wrong. Please try again later.") => {
+  const failure = (
+    message = "Something went wrong. Please try again later."
+  ) => {
     setLoading("");
-    console.log(message);
+    setFeedBackMessage(message);
+    setFeedBackSeverity("error");
+    setFeedBackOpen(true);
   };
+
+  const closeFeedback = () => {
+    setFeedBackOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={closeFeedback}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <div className="user-tabs-container edit-container">
@@ -231,6 +265,21 @@ const Name = () => {
       </div>
 
       <Loading loading={loading} text={loading} />
+
+      <Snackbar
+        open={feedBackOpen}
+        autoHideDuration={3000}
+        onClose={closeFeedback}
+        action={action}
+      >
+        <Alert
+          onClose={closeFeedback}
+          severity={feedBackSeverity}
+          sx={{ width: "100%" }}
+        >
+          {feedBackMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

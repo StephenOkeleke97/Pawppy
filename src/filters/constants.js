@@ -31,7 +31,7 @@ export const getSize = () => {
       isSize: true,
     },
   ];
-}
+};
 
 export const getGender = () => {
   return [
@@ -54,7 +54,7 @@ export const getGender = () => {
       isGender: true,
     },
   ];
-}
+};
 
 export const getAge = () => {
   return [
@@ -83,7 +83,7 @@ export const getAge = () => {
       isAge: true,
     },
   ];
-}
+};
 
 export const getCoat = () => {
   return [
@@ -124,7 +124,7 @@ export const getCoat = () => {
       isCoat: true,
     },
   ];
-}
+};
 
 export const getStatus = () => {
   return [
@@ -147,7 +147,7 @@ export const getStatus = () => {
       isStatus: true,
     },
   ];
-}
+};
 
 export function transformType(data) {
   return data.map((data) => {

@@ -54,11 +54,6 @@ const FilterOptions = ({
         if (!multipleValues && option.active) {
           remove = option;
         }
-
-        // if (option.name === optionItem.name) {
-        //   option.active = true;
-        //   add = option;
-        // }
       });
       addToFilter(add, remove);
     }

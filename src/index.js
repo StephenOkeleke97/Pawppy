@@ -5,7 +5,6 @@ import reportWebVitals from "./reportWebVitals";
 import "./styles/styles.css";
 import Navigation from "./components/Navigation";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Browse from "./routes/Browse";
 import { Provider } from "react-redux";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
@@ -34,8 +33,8 @@ ReactDOM.render(
             <Route path="/home" element={<App />} />
             <Route path="search" element={<Search />} />
             <Route path={`details/:id`} element={<Details />} />
-            <Route path="signup" element={<SignUp />} />
-            <Route path="signin" element={<SignIn />} />
+            <Route path="register" element={<SignUp />} />
+            <Route path="login" element={<SignIn />} />
             <Route path="user" element={<User />}>
               <Route path="profile" element={<Profile />} />
               <Route path="favorites" element={<Favorites />} />
@@ -51,7 +50,4 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

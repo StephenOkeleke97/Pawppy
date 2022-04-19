@@ -1,9 +1,9 @@
 /**
- * Filter options list objects to the ones that 
+ * Filter options list objects to the ones that
  * are active. Map the active options to their code,
  * which represents the format in which they will be
- * sent as parameters. 
- * 
+ * sent as parameters.
+ *
  * @param {array} option options array
  * @returns comma separated options
  */
@@ -14,10 +14,11 @@ export function getActiveFilter(option) {
 }
 
 export function getTraitActive(trait, traitOptions) {
-    const filteredOption = traitOptions
-    .filter(option => option.name.toLowerCase() === trait.toLowerCase());
+  const filteredOption = traitOptions.filter(
+    (option) => option.name.toLowerCase() === trait.toLowerCase()
+  );
 
-    if (filteredOption.length > 0) {
-        return filteredOption[0].active;
-    }
+  if (filteredOption.length > 0) {
+    return filteredOption[0].active;
+  }
 }

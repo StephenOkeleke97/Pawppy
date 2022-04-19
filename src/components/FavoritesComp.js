@@ -3,7 +3,6 @@ import Animal from "./Animal";
 
 const FavoritesComp = ({ animalsProp, showing }) => {
   const [animals, setAnimals] = useState([]);
-  console.log(animals);
   useEffect(() => {
     if (animalsProp) {
       setAnimals(animalsProp);
@@ -12,7 +11,7 @@ const FavoritesComp = ({ animalsProp, showing }) => {
   return (
     <div className="fav-animal-container">
       {animals.map((animal, index) => {
-        if (showing && index > showing - 1) return <></>;
+        if (showing && index > showing - 1) return;
         return <Animal animal={animal} key={animal.id} />;
       })}
     </div>

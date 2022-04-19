@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
-import { createSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -23,8 +23,12 @@ const Animal = ({ animal }) => {
   const [feedBackSeverity, setFeedBackSeverity] = useState("");
 
   const dispatch = useDispatch();
-  const favorites = useSelector(state => state.userReducer.value.user.favorites);
-  const isFavorite = favorites ? favorites.some(id => id === animal.id) : false;
+  const favorites = useSelector(
+    (state) => state.userReducer.value.user.favorites
+  );
+  const isFavorite = favorites
+    ? favorites.some((id) => id === animal.id)
+    : false;
 
   useEffect(() => {
     if (imageSrc.length > 0) {
@@ -75,9 +79,11 @@ const Animal = ({ animal }) => {
   };
 
   const success = (data, message) => {
-    dispatch(updateFavorites({
-      favorites: data,
-    }));
+    dispatch(
+      updateFavorites({
+        favorites: data,
+      })
+    );
     setFeedBackSeverity("success");
     setFeedBackMessage(message);
     setFeedBackOpen(true);
@@ -106,9 +112,7 @@ const Animal = ({ animal }) => {
         </div>
       </div>
       <div className="favorite-icon" onClick={handleFavorite}>
-        {isFavorite ? 
-        <BsSuitHeartFill size={25}/> : 
-        <BsSuitHeart size={25} />}
+        {isFavorite ? <BsSuitHeartFill size={25} /> : <BsSuitHeart size={25} />}
       </div>
 
       <Snackbar
@@ -117,7 +121,11 @@ const Animal = ({ animal }) => {
         onClose={closeFeedback}
         action={action}
       >
-        <Alert onClose={closeFeedback} severity={feedBackSeverity} sx={{ width: "100%" }}>
+        <Alert
+          onClose={closeFeedback}
+          severity={feedBackSeverity}
+          sx={{ width: "100%" }}
+        >
           {feedBackMessage}
         </Alert>
       </Snackbar>

@@ -6,13 +6,13 @@ const WebNav = ({ authenticated }) => {
   const activeStyle = {
     textDecoration: "none",
     color: "#000",
-    borderBottom: "2px solid " + "#000",
-    paddingBottom: "10px"
+    borderBottom: "2px solid #000",
+    paddingBottom: "10px",
   };
 
   const inActiveStyle = {
     textDecoration: "none",
-    color: "#000"
+    color: "#000",
   };
 
   return (
@@ -34,17 +34,21 @@ const WebNav = ({ authenticated }) => {
             Search
           </NavLink>
         </li>
-        {!authenticated && <li>
-          <NavLink
-            to={"signup"}
-            style={({ isActive }) => (isActive ? activeStyle : inActiveStyle)}
-          >
-            Sign Up
-          </NavLink>
-        </li>}
-        {authenticated && <li>
-          <LoggedInNav/>
-        </li>}
+        {!authenticated && (
+          <li>
+            <NavLink
+              to={"register"}
+              style={({ isActive }) => (isActive ? activeStyle : inActiveStyle)}
+            >
+              Register
+            </NavLink>
+          </li>
+        )}
+        {authenticated && (
+          <li>
+            <LoggedInNav />
+          </li>
+        )}
       </ul>
     </div>
   );
