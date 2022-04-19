@@ -5,9 +5,9 @@ import WebNav from "./WebNav";
 import MobileNav from "./MobileNav";
 
 const Navigation = () => {
-  const textColor = useSelector((state) => state.globalReducer.value).navText;
   const backgroundColor = useSelector((state) => state.globalReducer.value).navBackground;
   const authenticated = document.cookie.indexOf("auth=") !== -1;
+  console.log(backgroundColor);
  
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -23,12 +23,12 @@ const Navigation = () => {
   }, [windowWidth]);
   
   const style = {
-    backgroundColor: backgroundColor
+    backgroundColor: "#fff"
   }
   return (
     <div style={style} className='nav-container'>
       {windowWidth > 700 ?
-        <WebNav textColor={textColor} authenticated={authenticated}/> :
+        <WebNav authenticated={authenticated}/> :
         <MobileNav authenticated={authenticated}/>}
     </div>
   )

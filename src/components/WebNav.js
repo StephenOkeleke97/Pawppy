@@ -2,17 +2,17 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import LoggedInNav from "./LoggedInNav";
 
-const WebNav = ({ textColor = "#fff", authenticated }) => {
+const WebNav = ({ authenticated }) => {
   const activeStyle = {
     textDecoration: "none",
-    color: textColor,
-    borderBottom: "2px solid " + textColor,
+    color: "#000",
+    borderBottom: "2px solid " + "#000",
     paddingBottom: "10px"
   };
 
   const inActiveStyle = {
     textDecoration: "none",
-    color: textColor
+    color: "#000"
   };
 
   return (

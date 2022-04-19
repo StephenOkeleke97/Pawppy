@@ -13,15 +13,20 @@ export const user = createSlice({
     },
     updatePhoneNumber: (state, action) => {
       const phoneNumber = action.payload;
-      state.value.user = {...state.value.user, phoneNumber}
+      state.value.user = { ...state.value.user, phoneNumber };
     },
     updateName: (state, action) => {
       const firstName = action.payload.firstName;
       const lastName = action.payload.lastName;
-      state.value.user = {...state.value.user, firstName, lastName}
-    }
+      state.value.user = { ...state.value.user, firstName, lastName };
+    },
+    updateFavorites: (state, action) => {
+      const favorites = action.payload.favorites;
+      state.value.user = { ...state.value.user, favorites };
+    },
   },
 });
 
-export const { setUser, updatePhoneNumber, updateName } = user.actions;
+export const { setUser, updatePhoneNumber, updateName, updateFavorites } =
+  user.actions;
 export default user.reducer;
