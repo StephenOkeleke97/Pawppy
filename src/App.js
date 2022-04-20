@@ -1,9 +1,9 @@
-import Browse from "./routes/Browse";
+import Home from "./routes/Home";
 
 function App() {
   return (
     <div className="App">
-      <Browse/>
+      <Home/>
     </div>
   );
 }
