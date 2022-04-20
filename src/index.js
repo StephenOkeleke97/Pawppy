@@ -20,6 +20,7 @@ import Phonenumber from "./routes/Phonenumber";
 import Password from "./routes/Password";
 import Details from "./routes/Details";
 import Auth from "./auth/Auth";
+import NotFound from "./routes/NotFound";
 
 let persistor = persistStore(store);
 
@@ -44,6 +45,7 @@ ReactDOM.render(
               <Route path="phonenumber" element={<Phonenumber />} />
               <Route path="changepassword" element={<Password />} />
             </Route>
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </PersistGate>

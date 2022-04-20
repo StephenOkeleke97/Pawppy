@@ -12,6 +12,7 @@ import Password from "../routes/Password";
 import Details from "../routes/Details";
 import store from "../redux/store/store";
 import { BrowserRouter } from "react-router-dom";
+import NotFound from "../routes/NotFound";
 
 const mockedUseNavigate = jest.fn();
 
@@ -132,4 +133,15 @@ test("details page contains loading text", () => {
   );
   const loadingText = screen.getByText(/loading/i);
   expect(loadingText).toBeInTheDocument();
+});
+
+/** 404 TEST **/
+test("test not found route renders right text", () => {
+  render(
+    <Provider store={store}>
+      <NotFound />
+    </Provider>
+  );
+  const notFoundText = screen.getByText(/the page you are looking for/i);
+  expect(notFoundText).toBeInTheDocument();
 });
