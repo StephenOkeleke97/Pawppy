@@ -11,6 +11,10 @@ body {
   position: relative;
 }
 
+input {
+  font-size: 16px;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -494,8 +498,8 @@ input[type="number"] {
   transition: transform 0.1s ease-in;
   z-index: 2;
   box-shadow: 1px 1px 4px #cbcaca;
-  min-width: 120px;
-  white-space: nowrap;
+  width: 200px;
+  white-space: normal;
   max-height: 300px;
   overflow: scroll;
 }
@@ -505,10 +509,11 @@ input[type="number"] {
 }
 
 .option-list-items {
-  padding: 4px 5px;
+  padding: 8px 5px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid #e1e1e1;
 }
 
 .option-list-items:hover {
@@ -868,11 +873,11 @@ input[type="number"] {
   }
 
   .animal-card {
-    width: 230px;
+    width: 210px;
   }
 
   .animal-card-image-container {
-    height: 200px;
+    height: 180px;
   }
 
   .fav-animal-container {
@@ -882,6 +887,10 @@ input[type="number"] {
   .not-loaded {
     padding: 30px;
     padding-top: 80px;
+  }
+
+  .details-back {
+    margin-bottom: 20px;
   }
 }
 

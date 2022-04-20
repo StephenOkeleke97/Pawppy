@@ -43,7 +43,6 @@ const Search = () => {
   const [traitOptions] = useState(getTrait());
   const [organizationOptions, setOrganizationOptions] = useState([]);
   const [animals, setAnimals] = useState({});
-  const [typeLoaded, setTypeLoaded] = useState(false);
   const [pageShowing, setPageShowing] = useState(1);
   const [sort, setSort] = useState();
 
@@ -59,7 +58,7 @@ const Search = () => {
     } else {
     }
 
-    if (typeLoaded) handleSearchFilter(true);
+    if (typeOptions.length > 0) handleSearchFilter(true);
   }, [typeOptions]);
 
   const loadFilters = (keys) => {
@@ -130,9 +129,8 @@ const Search = () => {
     if (!petTypes || Date.now() > Number(petTypes.expires)) {
       getTypes()
         .then((result) => {
-          setTypeOptions(result.data.types);
-          setTypeLoaded(true);
-          const types = result.data.types;
+          const types = transformType(result.data.types);
+          setTypeOptions(types);
           const typeStore = {
             expires: Date.now() + 259200 * 1000, //Expires in 3 days,
             types: types,
@@ -140,12 +138,11 @@ const Search = () => {
           storage.setItem("pet-types", JSON.stringify(typeStore));
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } else {
-      const types = transformType(petTypes.types);
+      const types = petTypes.types;
       setTypeOptions(types);
-      setTypeLoaded(true);
     }
   }, []);
 
@@ -165,7 +162,8 @@ const Search = () => {
     ) {
       getOrganizations()
         .then((result) => {
-          const organizations = result.data.organizations;
+          const organizations = transformOrganizations(result.data.organizations);
+          setOrganizationOptions(organizations);
           const organizationsStore = {
             expires: Date.now() + 259200 * 1000, //Expires in 3 days,
             organizations: organizations,
@@ -173,12 +171,10 @@ const Search = () => {
           storage.setItem("organizations", JSON.stringify(organizationsStore));
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     } else {
-      const organizations = transformOrganizations(
-        organizationsStore.organizations
-      );
+      const organizations = organizationsStore.organizations;
       setOrganizationOptions(organizations);
     }
   }, []);
@@ -198,10 +194,10 @@ const Search = () => {
           setColorOptions(colors);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     }
-  }, [type]);
+  }, [type, typeOptions]);
 
   /**
    * Remove item from filter list. Only called when
@@ -325,7 +321,7 @@ const Search = () => {
         )
           setLoadStatus("Not Found. Please search again.");
         else setLoadStatus("Failed to load animals");
-        console.log(error);
+        // console.log(error);
       });
   };
 

@@ -2,6 +2,8 @@ import axios from "axios";
 const host = "https://pawppybackend.herokuapp.com/";
 const timeout = 10000;
 
+axios.defaults.headers.common['Authorization'] = "Bearer " + window.localStorage.getItem("auth");
+
 export function registerUser(
   email,
   password,
@@ -28,6 +30,7 @@ export function registerUser(
       const date = Date.now();
       const expiresIn = Number(response.data.expiresIn);
       window.localStorage.setItem("exp", date + expiresIn);
+      window.localStorage.setItem("auth", response.data.token);
       success(response.data);
     })
     .catch((error) => {
@@ -51,29 +54,21 @@ export function login(email, password, success, failure) {
       const date = Date.now();
       const expiresIn = Number(response.data.expiresIn);
       window.localStorage.setItem("exp", date + expiresIn);
+      window.localStorage.setItem("auth", response.data.token);
       success(response.data);
     })
     .catch((error) => {
       if (error.response) failure(error.response.data);
       else failure();
-      console.log(error);
+      // console.log(error);
     });
 }
 
-export function logout(success, failure) {
-  const api = host + "user/logout";
-  axios
-    .post(api, null, {
-      withCredentials: true,
-      timeout: timeout,
-    })
-    .then((response) => {
-      success();
-    })
-    .catch((error) => {
-      failure();
-      console.log(error);
-    });
+export function logout(success) {
+  window.localStorage.removeItem("exp");
+  window.localStorage.removeItem("auth");
+  
+  success();
 }
 
 export function changeName(firstName, lastName, success, failure) {
@@ -92,7 +87,7 @@ export function changeName(firstName, lastName, success, failure) {
     })
     .catch((error) => {
       failure();
-      console.log(error);
+      // console.log(error);
     });
 }
 
@@ -111,7 +106,7 @@ export function changePhoneNumber(phoneNumber, success, failure) {
     })
     .catch((error) => {
       failure();
-      console.log(error);
+      // console.log(error);
     });
 }
 
@@ -133,7 +128,7 @@ export function changePassword(oldpassword, newPassword, success, failure) {
       if (error.response && error.response.status === 401)
         failure("Invalid Password");
       else failure();
-      console.log(error);
+      // console.log(error);
     });
 }
 
@@ -148,14 +143,14 @@ export function addToFavorite(animal, success, failure) {
       timeout: timeout,
     })
     .then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       success(response.data.favorites, "Added to Favorites.");
     })
     .catch((error) => {
       if (error.response && error.response.status === 400)
         failure(error.response.data.message);
       else failure();
-      console.log(error);
+      // console.log(error);
     });
 }
 
@@ -170,10 +165,10 @@ export function addToRecents(animal) {
       timeout: timeout,
     })
     .then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
     })
     .catch((error) => {
-      console.log(error);
+      // console.log(error);
     });
 }
 
@@ -193,11 +188,11 @@ export function deleteFromFavorite(animalId, success, failure) {
     })
     .catch((error) => {
       if (error.response) {
-        console.log(error.response.data);
+        // console.log(error.response.data);
         failure(error.response.data.message);
       }
       failure();
-      console.log(error);
+      // console.log(error);
     });
 }
 
@@ -212,7 +207,7 @@ export function getFavorites(success) {
       success(response.data.favorites);
     })
     .catch((error) => {
-      console.log(error);
+      // console.log(error);
     });
 }
 
@@ -227,6 +222,6 @@ export function getRecents(success) {
       success(response.data);
     })
     .catch((error) => {
-      console.log(error);
+      // console.log(error);
     });
 }

@@ -175,7 +175,9 @@ export function transformBreeds(data) {
 
 export function getColors(typeName, typeOptions) {
   if (typeName && typeOptions && typeOptions.length > 0) {
-    const filteredType = typeOptions.filter((type) => type.name === typeName);
+    const filteredType = typeOptions.filter(
+      (type) => type.name.toLowerCase() === typeName.toLowerCase()
+    );
     const type = filteredType[0];
     const transformedColors = type.colors.map((color) => {
       return {
@@ -188,4 +190,5 @@ export function getColors(typeName, typeOptions) {
     });
     return transformedColors;
   }
+  return [];
 }

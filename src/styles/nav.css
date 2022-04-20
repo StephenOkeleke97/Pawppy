@@ -1,3 +1,8 @@
+button {
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+}
+
 .nav-container {
   position: fixed;
   z-index: 5;
@@ -163,6 +168,10 @@
 
 .loggedin-options {
   padding: 5px 20px;
+  width: 100%;
+  text-align: left;
+  font-size: 15px;
+  cursor: pointer;
 }
 
 .loggedin-options:hover {
@@ -183,5 +192,9 @@
 @media (max-width: 700px) {
   .loggedin-options-container {
     right: 0;
+  }
+
+  .loggedin-options:hover {
+    background-color: none;
   }
 }

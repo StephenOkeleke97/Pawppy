@@ -54,7 +54,6 @@ const Details = () => {
   }
 
   useEffect(() => {
-    console.log(animal);
     if (animal.id) addToRecents(animal);
   }, [animal]);
 
@@ -71,7 +70,7 @@ const Details = () => {
             setAnimal(res.data.data.animal);
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
             setStatusText("Failed to load details");
           });
       }

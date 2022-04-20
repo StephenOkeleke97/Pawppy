@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateGlobal } from "../redux/reducers/global";
 import Button from "../components/Button";
 import { getTrait } from "../filters/categories";
@@ -21,7 +21,7 @@ const Browse = () => {
   const [recentlyViewed, setRecentlyViewed] = useState([]);
   const [recentNum, setRecentNum] = useState(recentlyShowingCollapsedNum);
 
-  const authenticated = document.cookie.indexOf("auth=") !== -1;
+  const authenticated = useSelector(state => state.authReducer.value);
 
   useEffect(() => {
     getAnimals({
