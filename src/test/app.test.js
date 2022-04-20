@@ -9,6 +9,7 @@ import Search from "../routes/Search";
 import Name from "../routes/Name";
 import Phonenumber from "../routes/Phonenumber";
 import Password from "../routes/Password";
+import Details from "../routes/Details";
 import store from "../redux/store/store";
 import { BrowserRouter } from "react-router-dom";
 
@@ -118,4 +119,17 @@ test("password page contains confirm password label", () => {
   );
   const passwordLabel = screen.getByLabelText(/confirm password/i);
   expect(passwordLabel).toBeInTheDocument();
+});
+
+/** DETAILS TEST **/
+test("details page contains loading text", () => {
+  render(
+    <BrowserRouter>
+      <Provider store={store}>
+        <Details />
+      </Provider>
+    </BrowserRouter>
+  );
+  const loadingText = screen.getByText(/loading/i);
+  expect(loadingText).toBeInTheDocument();
 });
